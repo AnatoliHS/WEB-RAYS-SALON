@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% import "macros.njk" as m %}<!DOCTYPE html>
 <html lang="en-CA">
 <head>
   <meta charset="UTF-8" />
@@ -59,7 +59,6 @@
     "areaServed": ["Cobourg", "Port Hope", "Northumberland County"],
     "hasMap": "{{ site.mapsLink }}",
     {% if site.phone %}"telephone": "{{ site.phone }}",{% endif %}
-    {% if site.email %}"email": "{{ site.email }}",{% endif %}
     {% if site.url %}"url": "{{ site.url }}",
     "image": "{{ ogImage }}",{% endif %}
     "sameAs": ["{{ site.facebook }}"]
@@ -81,7 +80,7 @@
         <a href="/#gallery">Gallery</a>
         <a href="/#visit">Visit</a>
       </nav>
-      <a class="btn btn--small nav__cta" href="{{ site.facebook }}" target="_blank" rel="noopener">Book</a>
+      <a class="btn btn--small nav__cta" href="/#book">Book</a>
       <button class="nav__toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
         <span></span><span></span>
       </button>
@@ -95,7 +94,7 @@
       <a href="/#gallery">Gallery</a>
       <a href="/#visit">Visit</a>
     </nav>
-    <a class="btn" href="{{ site.facebook }}" target="_blank" rel="noopener">Book an appointment</a>
+    <a class="btn" href="/#book">Book an appointment</a>
     <p class="menu__addr">{{ site.street }}, {{ site.city }}</p>
   </div>
 
@@ -119,8 +118,8 @@
       </div>
       <div>
         <h2 class="footer__h">Get in touch</h2>
-        {% if site.phone %}<p><a class="link" href="tel:{{ site.phone | replace(' ', '') }}">{{ site.phone }}</a></p>{% endif %}
-        <p><a class="link" href="{{ site.facebook }}" target="_blank" rel="noopener">Message us on Facebook</a></p>
+        <p>{{ m.call(site, "link") }}</p>
+        <p class="footer__social"><a href="{{ site.facebook }}" target="_blank" rel="noopener">Follow us on Facebook</a></p>
       </div>
     </div>
     <div class="wrap footer__base">

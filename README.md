@@ -17,6 +17,7 @@ npm run build    # static output in dist/
 | --- | --- |
 | Salon details (address, phone, hours, Facebook) | `src/_data/site.json` |
 | Service menu and prices | `src/_data/services.json` |
+| Vagaro booking widget | `src/_data/site.json` → `booking.widget` (embed code) and `booking.url` (booking page link) |
 | Page layout (head, nav, footer) | `src/_includes/base.njk` |
 | Homepage | `src/index.njk` |
 | Styles / scripts | `src/assets/css/site.css`, `src/assets/js/site.js` |

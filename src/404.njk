@@ -6,6 +6,7 @@ description: This page doesn't exist. Find our services, gallery and address on 
 robots: noindex, follow
 eleventyExcludeFromCollections: true
 ---
+{% import "macros.njk" as m %}
 <section class="notfound">
   <div class="notfound__inner">
     <p class="eyebrow eyebrow--light">Error 404</p>
@@ -14,7 +15,7 @@ eleventyExcludeFromCollections: true
     <div class="notfound__actions">
       <a class="btn btn--light" href="/">Back to home</a>
       <a class="link link--light" href="/#services">View services</a>
-      <a class="link link--light" href="{{ site.facebook }}" target="_blank" rel="noopener">Message us</a>
+      {{ m.call(site, "link link--light", "Call us") }}
     </div>
   </div>
 </section>

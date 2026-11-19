@@ -1,0 +1,9 @@
+{#- Phone is the salon's only contact method. Renders a tap-to-call link once
+    site.phone is set in src/_data/site.json, and a quiet notice until then. -#}
+{% macro call(site, cls="link", label="") -%}
+  {%- if site.phone -%}
+    <a class="{{ cls }}" href="tel:{{ site.phone | replace(r/[^\d+]/g, '') }}">{{ label or ('Call ' + site.phone) }}</a>
+  {%- else -%}
+    <span class="phone-pending">Phone number coming soon</span>
+  {%- endif -%}
+{%- endmacro %}

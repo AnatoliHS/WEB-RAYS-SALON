@@ -15,14 +15,11 @@ eleventyExcludeFromCollections: true
 {%- if site.phone %}
 - Phone: {{ (site.phone) | safe }}
 {%- endif %}
-{%- if site.email %}
-- Email: {{ (site.email) | safe }}
-{%- endif %}
-- Facebook: {{ (site.facebook) | safe }}
+- Facebook (photos and updates): {{ (site.facebook) | safe }}
 
 ## Booking
 
-Appointments are booked by sending a message on Facebook{% if site.phone %} or by calling {{ (site.phone) | safe }}{% endif %}.
+The salon prefers all contact by phone{% if site.phone %}: call {{ (site.phone) | safe }}{% endif %}. Online booking via {{ (site.booking.provider) | safe }}{% if site.booking.url %} at {{ (site.booking.url) | safe }}{% else %} is coming soon{% endif %}.
 {%- if site.hours.length %}
 
 ## Hours

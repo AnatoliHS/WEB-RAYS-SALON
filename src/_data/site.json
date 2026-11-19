@@ -1,7 +1,7 @@
 {
   "name": "Rays Beauty Salon",
   "shortName": "Rays",
-  "tagline": "Hair, beautifully done.",
+  "tagline": "Your hair, thoughtfully done.",
   "description": "Rays Beauty Salon is a hair and beauty studio on Division Street in Cobourg, Ontario. Cuts, colour, styling and treatments in a calm, welcoming space.",
   "url": "",
   "street": "247 Division St",
@@ -10,9 +10,14 @@
   "postal": "K9A 3P9",
   "country": "CA",
   "phone": "",
-  "email": "",
   "facebook": "https://www.facebook.com/p/Rays-Beauty-Salon-100066715664153/",
   "mapsLink": "https://www.google.com/maps/search/?api=1&query=247+Division+St,+Cobourg,+ON+K9A+3P9",
   "mapsEmbed": "https://maps.google.com/maps?q=247%20Division%20St%2C%20Cobourg%2C%20ON%20K9A%203P9&z=16&output=embed",
-  "hours": []
+  "hours": [],
+  "booking": {
+    "_note": "Vagaro: paste the widget embed code from Vagaro (Settings > Online Booking > Widgets) into 'widget', and the booking page link into 'url'. While 'widget' is empty the site shows a placeholder.",
+    "provider": "Vagaro",
+    "url": "",
+    "widget": ""
+  }
 }

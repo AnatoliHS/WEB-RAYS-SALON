@@ -1,18 +1,19 @@
 ---
 layout: base.njk
 ---
+{% import "macros.njk" as m %}
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero__text">
-    <p class="eyebrow eyebrow--light"><span class="dot" aria-hidden="true"></span> Open &amp; welcoming clients<span class="hide-xs"> · Cobourg</span></p>
+    <p class="eyebrow eyebrow--light">Open &amp; welcoming clients<span class="hide-xs"> · Cobourg</span></p>
     <h1 id="hero-title" class="hero__title">
-      <span class="line" style="--i:0">Hair,</span>
-      <span class="line" style="--i:1"><em>beautifully</em></span>
+      <span class="line" style="--i:0">Your hair,</span>
+      <span class="line" style="--i:1"><em>thoughtfully</em></span>
       <span class="line" style="--i:2">done.</span>
     </h1>
     <span class="hero__rule" aria-hidden="true"></span>
     <p class="hero__lede">A calm, personal salon on Division Street for cuts, colour and styling, taken at your pace.</p>
     <div class="hero__actions">
-      <a class="btn btn--light" href="{{ site.facebook }}" target="_blank" rel="noopener">Book an appointment</a>
+      <a class="btn btn--light" href="#book">Book an appointment</a>
       <a class="link link--light" href="#services">View services</a>
     </div>
   </div>
@@ -87,7 +88,8 @@ layout: base.njk
     {% endfor %}
 
     <div class="services__cta">
-      <a class="btn btn--light" href="{{ site.facebook }}" target="_blank" rel="noopener">Ask about a service</a>
+      <a class="btn btn--light" href="#book">Book a service</a>
+      {{ m.call(site, "link link--light", "Call with a question") }}
     </div>
   </div>
 </section>
@@ -139,6 +141,41 @@ layout: base.njk
   </figure>
 </section>
 
+<section class="book" id="book" aria-labelledby="book-title">
+  <div class="wrap book__grid">
+    <div class="book__copy">
+      <p class="eyebrow">Book online</p>
+      <h2 id="book-title" class="h2">Reserve your <em>chair.</em></h2>
+      <p class="book__lede">Choose a service, pick a time that suits you, and you'll get a reminder before your visit.</p>
+      <ol class="book__steps">
+        <li><span>01</span>Choose your service</li>
+        <li><span>02</span>Pick a day and time</li>
+        <li><span>03</span>Get a confirmation and reminder</li>
+      </ol>
+      <p class="book__alt">Prefer to talk first? {{ m.call(site, "link") }}</p>
+    </div>
+
+    <div class="book__frame">
+      {% if site.booking.widget %}
+      {# {{ site.booking.provider }} booking widget (from site.json → booking.widget) #}
+      <div class="book__widget">{{ site.booking.widget | safe }}</div>
+      {% else %}
+      {# PLACEHOLDER: replaced automatically once booking.widget is filled in src/_data/site.json #}
+      <div class="book__placeholder" role="note">
+        <div class="book__cal" aria-hidden="true">
+          <div class="book__cal-head"><span></span><span></span></div>
+          <div class="book__cal-grid">{% for i in range(0, 28) %}<i{% if i in [9, 12, 16, 19, 23] %} class="on"{% endif %}></i>{% endfor %}</div>
+          <div class="book__cal-times"><b></b><b></b><b></b></div>
+        </div>
+        <p class="book__ph-title">Online booking opens soon</p>
+        <p class="book__ph-text">Our {{ site.booking.provider }} booking calendar will live right here. Until then, give us a call and we'll find you a time.</p>
+        {% if site.booking.url %}<a class="btn" href="{{ site.booking.url }}" target="_blank" rel="noopener">Book on {{ site.booking.provider }}</a>{% else %}{{ m.call(site, "btn", "Call to book") }}{% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
 <section class="visit" id="visit" aria-labelledby="visit-title">
   <div class="wrap visit__grid">
     <div class="visit__info">
@@ -156,15 +193,15 @@ layout: base.njk
           {% for h in site.hours %}<div><dt>{{ h.days }}</dt><dd>{{ h.time }}</dd></div>{% endfor %}
         </dl>
         {% else %}
-        <p>By appointment. Send us a message for current availability.</p>
+        <p>By appointment. Call us for current availability.</p>
         {% endif %}
       </div>
 
       <p class="notice"><strong>Yes, we're open.</strong> Some online listings show Rays as closed. They're out of date, and we're still welcoming clients.</p>
 
       <div class="visit__actions">
-        <a class="btn btn--light" href="{{ site.facebook }}" target="_blank" rel="noopener">Message to book</a>
-        {% if site.phone %}<a class="btn btn--ghost" href="tel:{{ site.phone | replace(' ', '') }}">Call {{ site.phone }}</a>{% endif %}
+        <a class="btn btn--light" href="#book">Book online</a>
+        {{ m.call(site, "btn btn--ghost") }}
         <a class="link link--light" href="{{ site.mapsLink }}" target="_blank" rel="noopener">Directions</a>
       </div>
     </div>
