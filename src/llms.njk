@@ -1,0 +1,49 @@
+---
+permalink: /llms.txt
+eleventyExcludeFromCollections: true
+---
+# {{ (site.name) | safe }}
+
+> {{ (site.description) | safe }}
+
+{{ (site.name) | safe }} is open and welcoming clients. Some online listings (including Google) incorrectly show the salon as permanently closed; that information is out of date.
+
+## Location
+
+- Address: {{ (site.street) | safe }}, {{ (site.city) | safe }}, {{ (site.region) | safe }} {{ (site.postal) | safe }}, Canada
+- Directions: {{ (site.mapsLink) | safe }}
+{%- if site.phone %}
+- Phone: {{ (site.phone) | safe }}
+{%- endif %}
+{%- if site.email %}
+- Email: {{ (site.email) | safe }}
+{%- endif %}
+- Facebook: {{ (site.facebook) | safe }}
+
+## Booking
+
+Appointments are booked by sending a message on Facebook{% if site.phone %} or by calling {{ (site.phone) | safe }}{% endif %}.
+{%- if site.hours.length %}
+
+## Hours
+{% for h in site.hours %}
+- {{ (h.days) | safe }}: {{ (h.time) | safe }}
+{%- endfor %}
+{%- else %}
+Hours are by appointment.
+{%- endif %}
+
+## Services
+
+Prices depend on hair length and thickness and are confirmed before the appointment begins.
+{% for group in services %}
+### {{ (group.title) | safe }}
+
+{{ (group.intro) | safe }}
+{% for item in group.items %}
+- {{ (item.name) | safe }}: {{ (item.note) | safe }}{% if item.price %} ({{ (item.price) | safe }}){% endif %}
+{%- endfor %}
+{% endfor %}
+## Pages
+
+- [Home]({{ (site.url) | safe }}/): services, studio, gallery and visiting information

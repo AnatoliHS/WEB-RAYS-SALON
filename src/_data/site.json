@@ -1,11 +1,18 @@
 {
-  "name": "MOPS INC",
-  "title": "Restoration Services You Can Trust",
-  "tagline": "From Emergency to Restored",
-  "license": "Certified Restoration Professionals",
-  "email": "hello@mopsinc.com",
-  "phone": "(613) 329-8439",
-  "address": "250 Sidney Street, Belleville, ON K8P 3Z3",
-  "url": "https://mopsinc.com/",
-  "year": "2026"
+  "name": "Rays Beauty Salon",
+  "shortName": "Rays",
+  "tagline": "Hair, beautifully done.",
+  "description": "Rays Beauty Salon is a hair and beauty studio on Division Street in Cobourg, Ontario. Cuts, colour, styling and treatments in a calm, welcoming space.",
+  "url": "",
+  "street": "247 Division St",
+  "city": "Cobourg",
+  "region": "ON",
+  "postal": "K9A 3P9",
+  "country": "CA",
+  "phone": "",
+  "email": "",
+  "facebook": "https://www.facebook.com/p/Rays-Beauty-Salon-100066715664153/",
+  "mapsLink": "https://www.google.com/maps/search/?api=1&query=247+Division+St,+Cobourg,+ON+K9A+3P9",
+  "mapsEmbed": "https://maps.google.com/maps?q=247%20Division%20St%2C%20Cobourg%2C%20ON%20K9A%203P9&z=16&output=embed",
+  "hours": []
 }

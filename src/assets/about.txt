@@ -1,2 +1,0 @@
-Favicons and logos are placeholder artwork for the "Aura Dental" template brand.
-Source files: logo.svg, logo-light.svg, favicon.svg. Replace them with your own brand assets.

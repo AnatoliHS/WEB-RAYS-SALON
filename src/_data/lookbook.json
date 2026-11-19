@@ -1,0 +1,22 @@
+[
+  {
+    "landscape": { "file": "windswept", "title": "Windswept", "pos": "50% 35%", "alt": "Black and white portrait of a woman with long blonde hair blowing across her face" },
+    "portrait": { "file": "movement", "title": "Movement", "pos": "50% 22%", "alt": "Woman tossing long dark hair in a sweeping arc" }
+  },
+  {
+    "landscape": { "file": "textured-lob", "title": "Textured lob", "pos": "45% 30%", "alt": "Woman in profile with a tousled, shoulder-length ash-blonde lob" },
+    "portrait": { "file": "soft-layers", "title": "Soft layers", "pos": "50% 32%", "alt": "Woman with shoulder-length layered auburn hair, smiling softly" }
+  },
+  {
+    "landscape": { "file": "balayage", "title": "Golden balayage", "pos": "75% 30%", "alt": "Woman seen from behind, running a hand through golden balayage waves" },
+    "portrait": { "file": "curtain-bangs", "title": "Curtain bangs", "pos": "50% 30%", "alt": "Woman with tousled brunette waves and wispy curtain bangs" }
+  },
+  {
+    "landscape": { "file": "glossy-brunette", "title": "Glossy brunette", "pos": "55% 25%", "alt": "Smiling woman with long glossy brunette hair against a rust backdrop" },
+    "portrait": { "file": "platinum-crop", "title": "Platinum crop", "pos": "50% 25%", "alt": "Black and white portrait of a woman with a textured platinum crop" }
+  },
+  {
+    "landscape": { "file": "sun-kissed", "title": "Sun-kissed lengths", "pos": "45% 30%", "alt": "Woman with long sun-kissed blonde hair looking over her shoulder" },
+    "portrait": { "file": "pixie", "title": "Textured pixie", "pos": "50% 25%", "alt": "Woman with a choppy blonde pixie cut and round glasses" }
+  }
+]

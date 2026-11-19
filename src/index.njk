@@ -1,0 +1,175 @@
+---
+layout: base.njk
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__text">
+    <p class="eyebrow eyebrow--light"><span class="dot" aria-hidden="true"></span> Open &amp; welcoming clients<span class="hide-xs"> · Cobourg</span></p>
+    <h1 id="hero-title" class="hero__title">
+      <span class="line" style="--i:0">Hair,</span>
+      <span class="line" style="--i:1"><em>beautifully</em></span>
+      <span class="line" style="--i:2">done.</span>
+    </h1>
+    <span class="hero__rule" aria-hidden="true"></span>
+    <p class="hero__lede">A calm, personal salon on Division Street for cuts, colour and styling, taken at your pace.</p>
+    <div class="hero__actions">
+      <a class="btn btn--light" href="{{ site.facebook }}" target="_blank" rel="noopener">Book an appointment</a>
+      <a class="link link--light" href="#services">View services</a>
+    </div>
+  </div>
+  <figure class="hero__media">
+    <img
+      src="/assets/img/hero-portrait.jpg"
+      srcset="/assets/img/hero-portrait-1000.jpg 1000w, /assets/img/hero-portrait.jpg 2000w"
+      sizes="(max-width: 900px) 100vw, 50vw"
+      width="1459" height="2000"
+      alt="Black and white portrait of a woman with long, softly tousled hair"
+      fetchpriority="high" />
+  </figure>
+  <p class="hero__address" aria-hidden="true">247 Division St · Cobourg, Ontario</p>
+</section>
+
+<section class="intro wrap" aria-labelledby="intro-title">
+  <p class="eyebrow">Welcome to Rays</p>
+  <h2 id="intro-title" class="statement reveal">
+    We believe great hair starts with <em>listening</em>: to what you love, what you live with, and what you'd like to try next.
+  </h2>
+</section>
+
+<section class="studio" id="studio" aria-labelledby="studio-title">
+  <div class="wrap studio__grid">
+    <figure class="studio__img studio__img--main reveal">
+      <img src="/assets/img/studio.jpg" width="1800" height="1350" loading="lazy" alt="Bright salon interior with tall windows, mirrors and styling chairs" />
+    </figure>
+    <div class="studio__copy reveal">
+      <p class="eyebrow">The Studio</p>
+      <h2 id="studio-title" class="h2">A quiet chair in the heart of town.</h2>
+      <p>Rays is an intimate, unhurried salon. You'll be seen by name and never rushed, with one stylist start to finish from consultation to final mirror check.</p>
+      <ul class="pillars">
+        <li><span class="pillars__n">01</span><div><strong>Consultation first</strong>Every visit begins with a proper conversation about your hair.</div></li>
+        <li><span class="pillars__n">02</span><div><strong>Considered colour</strong>Tones chosen for your skin, your style and the upkeep you want.</div></li>
+        <li><span class="pillars__n">03</span><div><strong>Care at home</strong>Simple advice so your hair looks just as good on day five.</div></li>
+      </ul>
+    </div>
+    <figure class="studio__img studio__img--small reveal">
+      <img src="/assets/img/wash.jpg" width="1400" height="933" loading="lazy" alt="Stylist rinsing a client's hair at a basin" />
+    </figure>
+  </div>
+</section>
+
+<section class="services" id="services" aria-labelledby="services-title">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow eyebrow--light">The Menu</p>
+      <h2 id="services-title" class="h2">Services</h2>
+      <p class="section-head__note">Pricing depends on hair length and thickness. We'll confirm it with you before we begin.</p>
+    </header>
+
+    <div class="tabs" role="tablist" aria-label="Service categories">
+      {% for group in services %}
+      <button class="tabs__btn" role="tab" id="tab-{{ group.id }}" aria-controls="panel-{{ group.id }}" aria-selected="{{ 'true' if loop.first else 'false' }}" {% if not loop.first %}tabindex="-1"{% endif %}>{{ group.title }}</button>
+      {% endfor %}
+    </div>
+
+    {% for group in services %}
+    <div class="menu-panel" role="tabpanel" id="panel-{{ group.id }}" aria-labelledby="tab-{{ group.id }}" {% if not loop.first %}hidden{% endif %}>
+      <h3 class="menu-panel__title">{{ group.title }}</h3>
+      <p class="menu-panel__intro">{{ group.intro }}</p>
+      <ul class="menu-list">
+        {% for item in group.items %}
+        <li>
+          <div class="menu-list__name">{{ item.name }}<span>{{ item.note }}</span></div>
+          <span class="menu-list__leader" aria-hidden="true"></span>
+          <span class="menu-list__price">{{ item.price or "On consultation" }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+
+    <div class="services__cta">
+      <a class="btn btn--light" href="{{ site.facebook }}" target="_blank" rel="noopener">Ask about a service</a>
+    </div>
+  </div>
+</section>
+
+<section class="lookbook" id="gallery" aria-labelledby="gallery-title" aria-roledescription="carousel">
+  <div class="lookbook__stage" id="lookbook-stage" aria-live="polite">
+    {% for shot in lookbook %}
+    <figure class="lookbook__slide{% if loop.first %} is-active{% endif %}" id="look-{{ loop.index }}" {% if not loop.first %}aria-hidden="true"{% endif %}>
+      <picture>
+        <source media="(orientation: portrait)" srcset="/assets/img/lookbook/{{ shot.portrait.file }}.jpg" />
+        <img src="/assets/img/lookbook/{{ shot.landscape.file }}.jpg" alt="{{ shot.landscape.alt }}" data-alt-portrait="{{ shot.portrait.alt }}" loading="lazy" decoding="async" style="--pos-l: {{ shot.landscape.pos }}; --pos-p: {{ shot.portrait.pos }}" />
+      </picture>
+    </figure>
+    {% endfor %}
+  </div>
+
+  <header class="lookbook__head wrap">
+    <div>
+      <p class="eyebrow eyebrow--light">Gallery</p>
+      <h2 id="gallery-title" class="lookbook__title">Movement, shine, <em>confidence.</em></h2>
+    </div>
+    <a class="link link--light" href="{{ site.facebook }}" target="_blank" rel="noopener">More on Facebook</a>
+  </header>
+
+  <div class="lookbook__ui">
+    <p class="lookbook__label" aria-hidden="true">
+      <span class="lookbook__count"><span id="lookbook-index">01</span> / {{ ("0" + lookbook.length) | string if lookbook.length < 10 else lookbook.length }}</span>
+      <span class="lookbook__name" id="lookbook-name">{{ lookbook[0].landscape.title }}</span>
+    </p>
+    <div class="lookbook__strip" role="group" aria-label="Choose a photo">
+      {% for shot in lookbook %}
+      <button class="lookbook__thumb" type="button" data-index="{{ loop.index0 }}" data-title="{{ shot.landscape.title }}" data-title-portrait="{{ shot.portrait.title }}" aria-controls="look-{{ loop.index }}" aria-pressed="{{ 'true' if loop.first else 'false' }}" aria-label="Show photo {{ loop.index }}">
+        <picture>
+          <source media="(orientation: portrait)" srcset="/assets/img/lookbook/{{ shot.portrait.file }}-thumb.jpg" />
+          <img src="/assets/img/lookbook/{{ shot.landscape.file }}-thumb.jpg" alt="" loading="lazy" decoding="async" />
+        </picture>
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="quote" aria-label="Our promise">
+  <figure class="wrap">
+    <blockquote class="statement statement--center reveal">
+      “Leave feeling like the <em>best version</em> of yourself, not someone else.”
+    </blockquote>
+    <figcaption class="eyebrow">The Rays promise</figcaption>
+  </figure>
+</section>
+
+<section class="visit" id="visit" aria-labelledby="visit-title">
+  <div class="wrap visit__grid">
+    <div class="visit__info">
+      <p class="eyebrow eyebrow--light">Visit</p>
+      <h2 id="visit-title" class="h2">Find us on Division Street.</h2>
+      <address>
+        {{ site.street }}<br />
+        {{ site.city }}, {{ site.region }} {{ site.postal }}
+      </address>
+
+      <div class="hours">
+        <h3 class="hours__h">Hours</h3>
+        {% if site.hours.length %}
+        <dl>
+          {% for h in site.hours %}<div><dt>{{ h.days }}</dt><dd>{{ h.time }}</dd></div>{% endfor %}
+        </dl>
+        {% else %}
+        <p>By appointment. Send us a message for current availability.</p>
+        {% endif %}
+      </div>
+
+      <p class="notice"><strong>Yes, we're open.</strong> Some online listings show Rays as closed. They're out of date, and we're still welcoming clients.</p>
+
+      <div class="visit__actions">
+        <a class="btn btn--light" href="{{ site.facebook }}" target="_blank" rel="noopener">Message to book</a>
+        {% if site.phone %}<a class="btn btn--ghost" href="tel:{{ site.phone | replace(' ', '') }}">Call {{ site.phone }}</a>{% endif %}
+        <a class="link link--light" href="{{ site.mapsLink }}" target="_blank" rel="noopener">Directions</a>
+      </div>
+    </div>
+    <div class="visit__map">
+      <iframe title="Map showing Rays Beauty Salon at 247 Division St, Cobourg" src="{{ site.mapsEmbed }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>

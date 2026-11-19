@@ -1,0 +1,20 @@
+---
+layout: base.njk
+permalink: /404.html
+title: Page not found
+description: This page doesn't exist. Find our services, gallery and address on the Rays Beauty Salon homepage.
+robots: noindex, follow
+eleventyExcludeFromCollections: true
+---
+<section class="notfound">
+  <div class="notfound__inner">
+    <p class="eyebrow eyebrow--light">Error 404</p>
+    <h1 class="notfound__title">This page has <em>stepped out.</em></h1>
+    <p class="notfound__text">The page you're looking for doesn't exist or has moved. Everything you need is on our homepage.</p>
+    <div class="notfound__actions">
+      <a class="btn btn--light" href="/">Back to home</a>
+      <a class="link link--light" href="/#services">View services</a>
+      <a class="link link--light" href="{{ site.facebook }}" target="_blank" rel="noopener">Message us</a>
+    </div>
+  </div>
+</section>

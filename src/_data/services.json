@@ -1,0 +1,45 @@
+[
+  {
+    "id": "cut",
+    "title": "Cut & Style",
+    "intro": "Every cut starts with a conversation about your hair, your routine and how you want to feel walking out.",
+    "items": [
+      { "name": "Women's cut & style", "note": "Wash, cut, blow-dry finish", "price": "" },
+      { "name": "Men's cut", "note": "Clippers, scissors, tidy finish", "price": "" },
+      { "name": "Children's cut", "note": "Ages 12 and under", "price": "" },
+      { "name": "Fringe tidy", "note": "Between appointments", "price": "" }
+    ]
+  },
+  {
+    "id": "colour",
+    "title": "Colour",
+    "intro": "Soft, lived-in colour or a confident change, always matched to your skin tone and the upkeep you want.",
+    "items": [
+      { "name": "Root touch-up", "note": "Grey coverage or regrowth", "price": "" },
+      { "name": "Full colour", "note": "Single process, root to end", "price": "" },
+      { "name": "Highlights & foils", "note": "Partial or full head", "price": "" },
+      { "name": "Balayage", "note": "Hand-painted, natural grow-out", "price": "" },
+      { "name": "Toner & gloss", "note": "Refresh shine and tone", "price": "" }
+    ]
+  },
+  {
+    "id": "styling",
+    "title": "Styling & Occasions",
+    "intro": "For weddings, events, photos, or just because. Book a trial and we will plan the look together.",
+    "items": [
+      { "name": "Blow-dry & finish", "note": "Smooth, bouncy or textured", "price": "" },
+      { "name": "Up-do", "note": "Formal and special occasion", "price": "" },
+      { "name": "Bridal hair", "note": "Trial and wedding-day styling", "price": "" }
+    ]
+  },
+  {
+    "id": "care",
+    "title": "Treatments",
+    "intro": "Restore softness, strength and shine with treatments chosen for your hair's condition.",
+    "items": [
+      { "name": "Deep conditioning", "note": "Moisture and repair mask", "price": "" },
+      { "name": "Scalp treatment", "note": "Cleanse, massage, rebalance", "price": "" },
+      { "name": "Perm", "note": "Body, wave or curl", "price": "" }
+    ]
+  }
+]

@@ -1,11 +1,28 @@
-# Carole Ann Bryant Mortgage Broker
+# Rays Beauty Salon
 
-## v1.0.0
+Website for **Rays Beauty Salon**, 247 Division St, Cobourg, ON K9A 3P9.
+Built with [Eleventy](https://www.11ty.dev/).
 
-This is a simple project to get started with the amazing 11ty static site generator and Startr.Style
+## Develop
 
-Simply clone the repo and run `make` to get started.
+```sh
+npm install
+npm start        # dev server at http://localhost:8080
+npm run build    # static output in dist/
+```
 
-This is my first hotfix.
+## Where things live
 
-Carole Ann Bryant Mortgage Broker.
+| What | File |
+| --- | --- |
+| Salon details (address, phone, hours, Facebook) | `src/_data/site.json` |
+| Service menu and prices | `src/_data/services.json` |
+| Page layout (head, nav, footer) | `src/_includes/base.njk` |
+| Homepage | `src/index.njk` |
+| Styles / scripts | `src/assets/css/site.css`, `src/assets/js/site.js` |
+| Web-optimized images | `src/assets/img/` |
+| Full-resolution source photos (not published) | `src/assets/salon images/` |
+
+Fill in `phone`, `hours` and service `price` values in the data files and
+the site picks them up. Empty values fall back to "By appointment" /
+"On consultation".
