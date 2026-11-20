@@ -103,28 +103,29 @@
   </main>
 
   <footer class="footer">
-    <div class="wrap footer__grid">
-      <div>
-        <a class="brand brand--footer" href="/">
-          <span class="brand__mark">Rays</span>
-          <span class="brand__sub">Beauty Salon</span>
-        </a>
-        <p class="footer__line">Hair and beauty on Division Street, Cobourg.</p>
-      </div>
-      <div>
-        <h2 class="footer__h">Visit</h2>
-        <p>{{ site.street }}<br />{{ site.city }}, {{ site.region }} {{ site.postal }}</p>
-        <a class="link" href="{{ site.mapsLink }}" target="_blank" rel="noopener">Get directions</a>
-      </div>
-      <div>
-        <h2 class="footer__h">Get in touch</h2>
-        <p>{{ m.call(site, "link") }}</p>
-        <p class="footer__social"><a href="{{ site.facebook }}" target="_blank" rel="noopener">Follow us on Facebook</a></p>
-      </div>
+    <div class="wrap footer__inner">
+      <p class="footer__line">Your hair, <em>thoughtfully</em> done.</p>
+
+      <p class="footer__mark" aria-label="{{ site.name }}">
+        <span class="footer__rays" aria-hidden="true">Rays</span>
+        <span class="footer__sub" aria-hidden="true">Beauty Salon</span>
+      </p>
+
+      <a class="btn" href="/#book">Book an appointment</a>
+
+      <ul class="footer__row">
+        <li><span class="footer__h">Visit</span>{{ site.street }}, {{ site.city }}<a class="link" href="{{ site.mapsLink }}" target="_blank" rel="noopener">Directions</a></li>
+        <li><span class="footer__h">Hours</span>{% if site.hours.length %}{% for h in site.hours %}<span>{{ h.days }} {{ h.time }}</span>{% endfor %}{% else %}By appointment{% endif %}</li>
+        <li><span class="footer__h">Call</span>{{ m.call(site, "link") }}</li>
+        <li><span class="footer__h">Follow</span><a href="{{ site.facebook }}" target="_blank" rel="noopener">Facebook</a></li>
+      </ul>
     </div>
+
     <div class="wrap footer__base">
+      <nav class="footer__nav" aria-label="Footer">
+        <a href="/#services">Services</a><a href="/#studio">The Studio</a><a href="/#gallery">Gallery</a><a href="/#visit">Visit</a>
+      </nav>
       <p>&copy; <span id="year">2026</span> {{ site.name }}</p>
-      <a href="#main">Back to top ↑</a>
     </div>
   </footer>
 

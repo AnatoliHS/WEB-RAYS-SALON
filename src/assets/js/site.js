@@ -28,14 +28,25 @@ menu.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !menu.hidden) setMenu(false); });
 window.matchMedia("(min-width: 901px)").addEventListener("change", (e) => { if (e.matches) setMenu(false); });
 
-// Service tabs (WAI-ARIA tabs pattern with arrow-key support)
+// Service tabs (WAI-ARIA tabs pattern with arrow-key support).
+// The chosen category's photo crossfades in and the caption follows.
 const tabs = [...document.querySelectorAll(".tabs__btn")];
+const svcImgs = document.querySelectorAll(".services__img");
+const svcNum = document.querySelector("[data-svc-num]");
+const svcName = document.querySelector("[data-svc-name]");
 const selectTab = (tab) => {
   tabs.forEach((t) => {
     const on = t === tab;
+    const panel = document.getElementById(t.getAttribute("aria-controls"));
     t.setAttribute("aria-selected", String(on));
     t.tabIndex = on ? 0 : -1;
-    document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+    panel.hidden = !on;
+    if (on) {
+      const id = panel.id.replace("panel-", "");
+      svcImgs.forEach((img) => img.classList.toggle("is-on", img.dataset.for === id));
+      if (svcNum) svcNum.textContent = panel.dataset.num;
+      if (svcName) svcName.textContent = panel.dataset.name;
+    }
   });
 };
 tabs.forEach((tab, i) => {
@@ -48,6 +59,44 @@ tabs.forEach((tab, i) => {
     next.focus();
   });
 });
+
+// Studio reel: plays the clips in order (1 → 4) on a loop, crossfading between
+// them. Each next clip starts loading while the current one plays. Pauses when
+// scrolled out of view; with reduced motion it stays on the still poster.
+const reel = document.querySelector("[data-reel]");
+if (reel && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const clips = [...reel.querySelectorAll(".studio__clip")];
+  let current = 0;
+  let inView = false;
+
+  const warm = (i) => {
+    const v = clips[i];
+    if (v.preload !== "auto") { v.preload = "auto"; v.load(); }
+  };
+  const play = () => {
+    // a refused autoplay (e.g. low-power mode) just leaves the poster showing
+    clips[current].play().then(() => warm((current + 1) % clips.length)).catch(() => {});
+  };
+  const show = (i) => {
+    clips.forEach((v, n) => v.classList.toggle("is-on", n === i));
+    current = i;
+    clips[i].currentTime = 0;
+    if (inView) play();
+  };
+
+  clips.forEach((v, i) => v.addEventListener("ended", () => show((i + 1) % clips.length)));
+
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      if (inView) play();
+      else clips[current].pause();
+    }, { threshold: 0.25 }).observe(reel);
+  } else {
+    inView = true;
+    play();
+  }
+}
 
 // Reveal on scroll
 const reveals = document.querySelectorAll(".reveal");

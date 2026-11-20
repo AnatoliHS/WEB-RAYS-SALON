@@ -5,6 +5,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/assets/favicon.svg": "favicon.svg" });
   eleventyConfig.addPassthroughCopy({ "src/assets/css": "assets/css" });
   eleventyConfig.addPassthroughCopy({ "src/assets/js": "assets/js" });
+  eleventyConfig.addPassthroughCopy({ "src/assets/video": "assets/video" });
 
   eleventyConfig.ignores.add("src/assets/**");
   eleventyConfig.addWatchTarget("src/assets/");

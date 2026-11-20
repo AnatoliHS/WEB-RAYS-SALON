@@ -3,6 +3,7 @@
     "id": "cut",
     "title": "Cut & Style",
     "intro": "Every cut starts with a conversation about your hair, your routine and how you want to feel walking out.",
+    "image": { "src": "/assets/img/services/cut.jpg", "width": 933, "height": 1400, "pos": "50% 25%", "alt": "Woman with a choppy blonde pixie cut and round glasses" },
     "items": [
       { "name": "Women's cut & style", "note": "Wash, cut, blow-dry finish", "price": "" },
       { "name": "Men's cut", "note": "Clippers, scissors, tidy finish", "price": "" },
@@ -14,6 +15,7 @@
     "id": "colour",
     "title": "Colour",
     "intro": "Soft, lived-in colour or a confident change, always matched to your skin tone and the upkeep you want.",
+    "image": { "src": "/assets/img/services/colour.jpg", "width": 933, "height": 1060, "pos": "50% 30%", "alt": "Woman with long, wavy lavender-tinted hair, looking down" },
     "items": [
       { "name": "Root touch-up", "note": "Grey coverage or regrowth", "price": "" },
       { "name": "Full colour", "note": "Single process, root to end", "price": "" },
@@ -26,6 +28,7 @@
     "id": "styling",
     "title": "Styling & Occasions",
     "intro": "For weddings, events, photos, or just because. Book a trial and we will plan the look together.",
+    "image": { "src": "/assets/img/services/styling.jpg", "width": 931, "height": 1400, "pos": "50% 30%", "alt": "Bridal half-up style with loose waves and a pearl hair vine, seen from behind" },
     "items": [
       { "name": "Blow-dry & finish", "note": "Smooth, bouncy or textured", "price": "" },
       { "name": "Up-do", "note": "Formal and special occasion", "price": "" },
@@ -36,6 +39,7 @@
     "id": "care",
     "title": "Treatments",
     "intro": "Restore softness, strength and shine with treatments chosen for your hair's condition.",
+    "image": { "src": "/assets/img/services/care.jpg", "width": 1400, "height": 933, "pos": "10% 50%", "alt": "Long, glossy, defined brown curls seen from behind" },
     "items": [
       { "name": "Deep conditioning", "note": "Moisture and repair mask", "price": "" },
       { "name": "Scalp treatment", "note": "Cleanse, massage, rebalance", "price": "" },
