@@ -7,8 +7,7 @@
     "items": [
       { "name": "Women's cut & style", "note": "Wash, cut, blow-dry finish", "price": "" },
       { "name": "Men's cut", "note": "Clippers, scissors, tidy finish", "price": "" },
-      { "name": "Children's cut", "note": "Ages 12 and under", "price": "" },
-      { "name": "Fringe tidy", "note": "Between appointments", "price": "" }
+      { "name": "Children's cut", "note": "Ages 12 and under", "price": "" }
     ]
   },
   {
@@ -19,9 +18,7 @@
     "items": [
       { "name": "Root touch-up", "note": "Grey coverage or regrowth", "price": "" },
       { "name": "Full colour", "note": "Single process, root to end", "price": "" },
-      { "name": "Highlights & foils", "note": "Partial or full head", "price": "" },
-      { "name": "Balayage", "note": "Hand-painted, natural grow-out", "price": "" },
-      { "name": "Toner & gloss", "note": "Refresh shine and tone", "price": "" }
+      { "name": "Highlights & foils", "note": "Partial or full head", "price": "" }
     ]
   },
   {

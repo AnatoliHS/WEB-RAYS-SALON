@@ -31,7 +31,7 @@ layout: base.njk
 
 <section class="intro wrap" aria-labelledby="intro-title">
   <p class="eyebrow">Welcome to Rays</p>
-  <h2 id="intro-title" class="statement reveal">
+  <h2 id="intro-title" class="statement fill-wave">
     We believe great hair starts with <em>listening</em>: to what you love, what you live with, and what you'd like to try next.
   </h2>
 </section>
@@ -67,7 +67,7 @@ layout: base.njk
         <img class="services__img{% if loop.first %} is-on{% endif %}" data-for="{{ group.id }}" src="{{ group.image.src }}" width="{{ group.image.width }}" height="{{ group.image.height }}" {{ ('style="object-position: ' + group.image.pos + '"') | safe }} alt="" loading="{{ 'eager' if loop.first else 'lazy' }}" />
         {% endfor %}
       </div>
-      <figcaption class="services__cap"><span data-svc-num>01</span> / 0{{ services.length }} · <em data-svc-name>{{ services[0].title }}</em></figcaption>
+      <figcaption class="services__cap"><span class="roll"><span data-svc-num>01</span></span> / 0{{ services.length }} · <span class="roll"><em data-svc-name>{{ services[0].title }}</em></span></figcaption>
     </figure>
 
     <div class="services__menu">
@@ -86,7 +86,7 @@ layout: base.njk
       {% for group in services %}
       <div class="menu-panel" role="tabpanel" id="panel-{{ group.id }}" aria-labelledby="tab-{{ group.id }}" data-num="0{{ loop.index }}" data-name="{{ group.title }}" {% if not loop.first %}hidden{% endif %}>
         <p class="menu-panel__num">0{{ loop.index }}</p>
-        <h3 class="menu-panel__title">{{ group.title }}</h3>
+        <h3 class="menu-panel__title roll"><span>{{ group.title }}</span></h3>
         <p class="menu-panel__intro">{{ group.intro }}</p>
         <ul class="menu-list">
           {% for item in group.items %}
@@ -147,7 +147,7 @@ layout: base.njk
 
 <section class="quote" aria-label="Our promise">
   <figure class="wrap">
-    <blockquote class="statement statement--center reveal">
+    <blockquote class="statement statement--center fill-wave">
       “Leave feeling like the <em>best version</em> of yourself, not someone else.”
     </blockquote>
     <figcaption class="eyebrow">The Rays promise</figcaption>

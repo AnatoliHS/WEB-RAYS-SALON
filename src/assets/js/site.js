@@ -29,12 +29,87 @@ document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !menu.hi
 window.matchMedia("(min-width: 901px)").addEventListener("change", (e) => { if (e.matches) setMenu(false); });
 
 // Service tabs (WAI-ARIA tabs pattern with arrow-key support).
-// The chosen category's photo crossfades in and the caption follows.
+// The chosen category's photo wipes in across the frame on a slanted edge
+// (from the right going forward, from the left going back) with a little
+// parallax, while the titles roll up into place through a mask.
 const tabs = [...document.querySelectorAll(".tabs__btn")];
-const svcImgs = document.querySelectorAll(".services__img");
+const svcImgs = [...document.querySelectorAll(".services__img")];
 const svcNum = document.querySelector("[data-svc-num]");
 const svcName = document.querySelector("[data-svc-name]");
+const svcMotion = !window.matchMedia("(prefers-reduced-motion: reduce)").matches && !!document.body.animate;
+const WIPE_EASE = "cubic-bezier(0.77, 0, 0.18, 1)";
+const SETTLE_EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
+const WIPE_MS = 900;
+const SLANT = 14; // how far (in % of the frame's width) the wipe's bottom trails its top
+let svcIndex = 0;
+let wipeTimer;
+
+// finish anything still running so a quick second click starts from a clean state
+const settleImgs = () => {
+  clearTimeout(wipeTimer);
+  svcImgs.forEach((img) => {
+    img.getAnimations().forEach((a) => a.cancel());
+    img.classList.remove("is-leaving");
+    img.style.zIndex = "";
+  });
+};
+
+const wipeTo = (next, dir) => {
+  const prev = svcImgs.find((img) => img.classList.contains("is-on"));
+  settleImgs();
+  if (!prev || prev === next) return;
+  prev.classList.remove("is-on");
+  next.classList.add("is-on");
+  if (!svcMotion) return;
+
+  prev.classList.add("is-leaving");
+  next.style.zIndex = 2;
+  const k = SLANT;
+  const [from, to] = dir > 0
+    ? [`polygon(100% 0%, ${100 + k}% 0%, ${100 + k}% 100%, ${100 + k}% 100%)`,
+       `polygon(${-k}% 0%, ${100 + k}% 0%, ${100 + k}% 100%, 0% 100%)`]
+    : [`polygon(${-k}% 0%, ${-k}% 0%, 0% 100%, ${-k}% 100%)`,
+       `polygon(${-k}% 0%, 100% 0%, ${100 + k}% 100%, ${-k}% 100%)`];
+  next.animate([{ clipPath: from }, { clipPath: to }], { duration: WIPE_MS, easing: WIPE_EASE });
+  next.animate(
+    [{ transform: `translateX(${dir * 8}%) scale(1.08)` }, { transform: "none" }],
+    { duration: WIPE_MS + 500, easing: SETTLE_EASE }
+  );
+  prev.animate(
+    [{ transform: "none" }, { transform: `translateX(${dir * -6}%)` }],
+    { duration: WIPE_MS, easing: WIPE_EASE, fill: "forwards" }
+  );
+  // cleanup on a timer too; the end state is just the classes, so cancelling is safe
+  clearTimeout(wipeTimer);
+  wipeTimer = setTimeout(() => {
+    prev.getAnimations().forEach((a) => a.cancel());
+    prev.classList.remove("is-leaving");
+    next.style.zIndex = "";
+  }, WIPE_MS);
+};
+
+// roll a line of text up out of its mask, swap it, and roll the new one in from
+// below. The swap runs on a timer, not on the animation finishing, so the text
+// always updates even where animations are paused (e.g. a background tab).
+const ROLL_OUT_MS = 260;
+const rollText = (el, text) => {
+  if (!el) return;
+  clearTimeout(el._rollTimer);
+  el.getAnimations().forEach((a) => a.cancel());
+  if (!svcMotion) { el.textContent = text; return; }
+  el.animate([{ transform: "none" }, { transform: "translateY(-110%)" }], { duration: ROLL_OUT_MS, easing: "cubic-bezier(0.5, 0, 0.75, 0)", fill: "forwards" });
+  el._rollTimer = setTimeout(() => {
+    el.getAnimations().forEach((a) => a.cancel());
+    el.textContent = text;
+    el.animate([{ transform: "translateY(110%)" }, { transform: "none" }], { duration: 650, easing: SETTLE_EASE });
+  }, ROLL_OUT_MS);
+};
+
 const selectTab = (tab) => {
+  const index = tabs.indexOf(tab);
+  if (index === svcIndex) return;
+  const dir = index > svcIndex ? 1 : -1;
+  svcIndex = index;
   tabs.forEach((t) => {
     const on = t === tab;
     const panel = document.getElementById(t.getAttribute("aria-controls"));
@@ -43,9 +118,14 @@ const selectTab = (tab) => {
     panel.hidden = !on;
     if (on) {
       const id = panel.id.replace("panel-", "");
-      svcImgs.forEach((img) => img.classList.toggle("is-on", img.dataset.for === id));
-      if (svcNum) svcNum.textContent = panel.dataset.num;
-      if (svcName) svcName.textContent = panel.dataset.name;
+      const img = svcImgs.find((im) => im.dataset.for === id);
+      if (img) wipeTo(img, dir);
+      rollText(svcNum, panel.dataset.num);
+      rollText(svcName, panel.dataset.name);
+      const title = panel.querySelector(".menu-panel__title > span");
+      if (title && svcMotion) {
+        title.animate([{ transform: "translateY(110%)" }, { transform: "none" }], { duration: 850, delay: 120, easing: SETTLE_EASE, fill: "backwards" });
+      }
     }
   });
 };
@@ -97,6 +177,47 @@ if (reel && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     play();
   }
 }
+
+// Fill wave: split the statement into letters (keeping <em> and spaces intact)
+// and start the colour wave once it's well on screen. Screen readers get the
+// sentence once, from a visually hidden copy.
+document.querySelectorAll(".fill-wave").forEach((el) => {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const plain = el.textContent.replace(/\s+/g, " ").trim();
+  let i = 0;
+  const split = (node) => {
+    [...node.childNodes].forEach((child) => {
+      if (child.nodeType === Node.TEXT_NODE) {
+        const frag = document.createDocumentFragment();
+        for (const ch of child.textContent) {
+          if (/\s/.test(ch)) { frag.appendChild(document.createTextNode(ch)); continue; }
+          const span = document.createElement("span");
+          span.className = "fw-char";
+          span.style.setProperty("--i", i++);
+          span.textContent = ch;
+          frag.appendChild(span);
+        }
+        child.replaceWith(frag);
+      } else if (child.nodeType === Node.ELEMENT_NODE) {
+        split(child);
+      }
+    });
+  };
+  const visual = document.createElement("span");
+  visual.setAttribute("aria-hidden", "true");
+  while (el.firstChild) visual.appendChild(el.firstChild);
+  split(visual);
+  const sr = document.createElement("span");
+  sr.className = "sr-only";
+  sr.textContent = plain;
+  el.append(sr, visual);
+
+  if (!("IntersectionObserver" in window)) { el.classList.add("is-in"); return; }
+  const io = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) { el.classList.add("is-in"); io.disconnect(); }
+  }, { threshold: 0.6 });
+  io.observe(el);
+});
 
 // Reveal on scroll
 const reveals = document.querySelectorAll(".reveal");
