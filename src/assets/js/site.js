@@ -14,18 +14,38 @@ window.addEventListener("scroll", setNav, { passive: true });
 window.addEventListener("resize", setNav);
 setNav();
 
-// Mobile menu
+// Mobile menu ("Ivory bloom"): the sheet opens as a circle from the menu
+// button. It stays in the page (so it can animate closed too) and is made
+// inert while closed so it can't be tabbed into or read out.
 const toggle = document.getElementById("nav-toggle");
 const menu = document.getElementById("menu");
+let menuOpen = false;
+menu.hidden = false;
+menu.inert = true;
+menu.setAttribute("aria-hidden", "true");
 const setMenu = (open) => {
+  menuOpen = open;
+  if (open) {
+    const r = toggle.getBoundingClientRect();
+    menu.style.setProperty("--mx", `${r.left + r.width / 2}px`);
+    menu.style.setProperty("--my", `${r.top + r.height / 2}px`);
+  }
   toggle.setAttribute("aria-expanded", String(open));
   toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-  menu.hidden = !open;
+  menu.classList.toggle("is-open", open);
+  menu.inert = !open;
+  menu.setAttribute("aria-hidden", String(!open));
+  // while it closes, hold the nav's colour change until the ivory has pulled back
+  if (!open && document.body.classList.contains("menu-open")) {
+    document.body.classList.add("menu-closing");
+    clearTimeout(setMenu.closing);
+    setMenu.closing = setTimeout(() => document.body.classList.remove("menu-closing"), 900);
+  }
   document.body.classList.toggle("menu-open", open);
 };
-toggle.addEventListener("click", () => setMenu(menu.hidden));
+toggle.addEventListener("click", () => setMenu(!menuOpen));
 menu.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
-document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !menu.hidden) setMenu(false); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && menuOpen) { setMenu(false); toggle.focus(); } });
 window.matchMedia("(min-width: 901px)").addEventListener("change", (e) => { if (e.matches) setMenu(false); });
 
 // Service tabs (WAI-ARIA tabs pattern with arrow-key support).
@@ -178,9 +198,11 @@ if (reel && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   }
 }
 
-// Fill wave: split the statement into letters (keeping <em> and spaces intact)
-// and start the colour wave once it's well on screen. Screen readers get the
-// sentence once, from a visually hidden copy.
+// Fill wave: split each statement into letters (keeping <em> and spaces intact)
+// and drive the colour wave from scroll: it starts as the text comes up past
+// the bottom of the screen and completes by the time it's a little above the
+// middle. Screen readers get the sentence once, from a visually hidden copy.
+const fillWaves = [];
 document.querySelectorAll(".fill-wave").forEach((el) => {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const plain = el.textContent.replace(/\s+/g, " ").trim();
@@ -212,12 +234,25 @@ document.querySelectorAll(".fill-wave").forEach((el) => {
   sr.textContent = plain;
   el.append(sr, visual);
 
-  if (!("IntersectionObserver" in window)) { el.classList.add("is-in"); return; }
-  const io = new IntersectionObserver(([entry]) => {
-    if (entry.isIntersecting) { el.classList.add("is-in"); io.disconnect(); }
-  }, { threshold: 0.6 });
-  io.observe(el);
+  fillWaves.push({ el, count: i });
 });
+
+if (fillWaves.length) {
+  const step = 0.07; // keep in step with --fw-step in site.css
+  const paintWaves = () => {
+    const vh = window.innerHeight;
+    fillWaves.forEach(({ el, count }) => {
+      const top = el.getBoundingClientRect().top;
+      const p = Math.min(1, Math.max(0, (vh * 0.88 - top) / (vh * 0.5)));
+      el.style.setProperty("--fw-t", (p * ((count - 1) * step + 1)).toFixed(3));
+    });
+  };
+  let wavesQueued = false;
+  const queueWaves = () => { if (!wavesQueued) { wavesQueued = true; requestAnimationFrame(() => { wavesQueued = false; paintWaves(); }); } };
+  window.addEventListener("scroll", queueWaves, { passive: true });
+  window.addEventListener("resize", queueWaves);
+  paintWaves();
+}
 
 // Reveal on scroll
 const reveals = document.querySelectorAll(".reveal");

@@ -89,13 +89,16 @@
 
   <div class="menu" id="menu" hidden>
     <nav aria-label="Mobile">
-      <a href="/#services">Services</a>
-      <a href="/#studio">The Studio</a>
-      <a href="/#gallery">Gallery</a>
-      <a href="/#visit">Visit</a>
+      <a href="/#services" style="--i:0">Services</a>
+      <a href="/#studio" style="--i:1">The Studio</a>
+      <a href="/#gallery" style="--i:2">Gallery</a>
+      <a href="/#visit" style="--i:3">Visit</a>
     </nav>
-    <a class="btn" href="/#book">Book an appointment</a>
-    <p class="menu__addr">{{ site.street }}, {{ site.city }}</p>
+    <span class="menu__dot" aria-hidden="true"></span>
+    <div class="menu__foot">
+      <a class="btn" href="/#book">Book an appointment</a>
+      <p class="menu__addr">{{ site.street }} · {{ site.city }}</p>
+    </div>
   </div>
 
   <main id="main">
