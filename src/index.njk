@@ -60,51 +60,49 @@ layout: base.njk
 </section>
 
 <section class="services" id="services" aria-labelledby="services-title">
-  <div class="wrap services__grid">
-    <figure class="services__media" aria-hidden="true">
-      <div class="services__frame">
+  <div class="wrap services__view">
+    <header class="services__head">
+      <p class="eyebrow">The Menu</p>
+      <h2 id="services-title" class="services__title">Services, <em>considered.</em></h2>
+      <div class="services__tabs" role="tablist" aria-label="Service categories">
         {% for group in services %}
-        <img class="services__img{% if loop.first %} is-on{% endif %}" data-for="{{ group.id }}" src="{{ group.image.src }}" width="{{ group.image.width }}" height="{{ group.image.height }}" {{ ('style="object-position: ' + group.image.pos + '"') | safe }} alt="" loading="{{ 'eager' if loop.first else 'lazy' }}" />
+        <button class="services__tab" role="tab" id="tab-{{ group.id }}" data-id="{{ group.id }}" aria-controls="panel-{{ group.id }}" aria-selected="{{ 'true' if loop.first else 'false' }}" {% if not loop.first %}tabindex="-1"{% endif %}>{{ group.title }}</button>
         {% endfor %}
       </div>
-      <figcaption class="services__cap"><span class="roll"><span data-svc-num>01</span></span> / 0{{ services.length }} · <span class="roll"><em data-svc-name>{{ services[0].title }}</em></span></figcaption>
-    </figure>
+    </header>
 
-    <div class="services__menu">
-      <header class="section-head">
-        <p class="eyebrow">The Menu</p>
-        <h2 id="services-title" class="services__title">Services, <em>considered.</em></h2>
-        <p class="section-head__note">Pricing depends on hair length and thickness. We'll confirm it with you before we begin.</p>
-      </header>
-
-      <div class="tabs" role="tablist" aria-label="Service categories">
-        {% for group in services %}
-        <button class="tabs__btn" role="tab" id="tab-{{ group.id }}" aria-controls="panel-{{ group.id }}" aria-selected="{{ 'true' if loop.first else 'false' }}" {% if not loop.first %}tabindex="-1"{% endif %}>{{ group.title }}</button>
-        {% endfor %}
-      </div>
-
-      {% for group in services %}
-      <div class="menu-panel" role="tabpanel" id="panel-{{ group.id }}" aria-labelledby="tab-{{ group.id }}" data-num="0{{ loop.index }}" data-name="{{ group.title }}" {% if not loop.first %}hidden{% endif %}>
-        <p class="menu-panel__num">0{{ loop.index }}</p>
-        <h3 class="menu-panel__title roll"><span>{{ group.title }}</span></h3>
-        <p class="menu-panel__intro">{{ group.intro }}</p>
-        <ul class="menu-list">
-          {% for item in group.items %}
-          <li>
-            <div class="menu-list__name">{{ item.name }}<span>{{ item.note }}</span></div>
-            {% if item.price %}<span class="menu-list__leader" aria-hidden="true"></span>
-            <span class="menu-list__price">{{ item.price }}</span>{% endif %}
-          </li>
+    <div class="services__body">
+      <div class="services__menu">
+        <div class="services__panels">
+          {% for group in services %}
+          <div class="menu-panel" role="tabpanel" id="panel-{{ group.id }}" aria-labelledby="tab-{{ group.id }}" {% if not loop.first %}hidden{% endif %}>
+            <p class="menu-panel__num">0{{ loop.index }}</p>
+            <h3 class="menu-panel__title">{{ group.title }}</h3>
+            <p class="menu-panel__intro">{{ group.intro }}</p>
+            <ul class="menu-list">
+              {% for item in group.items %}
+              <li>
+                <span class="menu-list__name">{{ item.name }}</span>
+                <span class="menu-list__note">{{ item.note }}</span>
+                {% if item.price %}<span class="menu-list__price">{{ item.price }}</span>{% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+            <div class="menu-panel__cta">
+              <a class="btn" href="#book">Book {{ group.title | lower }}</a>
+              {{ m.call(site, "link", "Call with a question") }}
+            </div>
+          </div>
           {% endfor %}
-        </ul>
-        <div class="menu-panel__cta">
-          <a class="btn" href="#book">Book {{ group.title | lower }}</a>
-          {{ m.call(site, "link", "Call with a question") }}
         </div>
+        <p class="services__note">Pricing depends on hair length and thickness. We'll confirm it with you before we begin.</p>
       </div>
-      {% endfor %}
+
+      {# cluster of circles, built by site.js from src/_data/menuBubbles.json #}
+      <div class="services__stage" data-bubbles aria-hidden="true"></div>
     </div>
   </div>
+  <script type="application/json" id="services-bubbles">{{ menuBubbles | dump | safe }}</script>
 </section>
 
 <section class="lookbook" id="gallery" aria-labelledby="gallery-title" aria-roledescription="carousel">

@@ -48,117 +48,154 @@ menu.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && menuOpen) { setMenu(false); toggle.focus(); } });
 window.matchMedia("(min-width: 901px)").addEventListener("change", (e) => { if (e.matches) setMenu(false); });
 
-// Service tabs (WAI-ARIA tabs pattern with arrow-key support).
-// The chosen category's photo wipes in across the frame on a slanted edge
-// (from the right going forward, from the left going back) with a little
-// parallax, while the titles roll up into place through a mask.
-const tabs = [...document.querySelectorAll(".tabs__btn")];
-const svcImgs = [...document.querySelectorAll(".services__img")];
-const svcNum = document.querySelector("[data-svc-num]");
-const svcName = document.querySelector("[data-svc-name]");
-const svcMotion = !window.matchMedia("(prefers-reduced-motion: reduce)").matches && !!document.body.animate;
-const WIPE_EASE = "cubic-bezier(0.77, 0, 0.18, 1)";
-const SETTLE_EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
-const WIPE_MS = 900;
-const SLANT = 14; // how far (in % of the frame's width) the wipe's bottom trails its top
-let svcIndex = 0;
-let wipeTimer;
+// Services: tabs (WAI-ARIA tabs pattern, arrow keys move between them) and a
+// cluster of circles that re-arranges for each category. Layouts come from
+// src/_data/menuBubbles.json. On a change: circles not in the new layout
+// shrink to nothing (staggered), circles in both glide and resize to their new
+// spot, and new circles spring open in place one after another.
+//
+// For smoothness, every circle from every layout is built once up front (its
+// photo decoded before the first animation) and then only shown, hidden or
+// moved through CSS transforms; nothing is added to or removed from the page
+// while a transition is running.
+(() => {
+  const stage = document.querySelector("[data-bubbles]");
+  const data = document.getElementById("services-bubbles");
+  if (!stage || !data) return;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const layouts = JSON.parse(data.textContent);
+  const tabs = [...document.querySelectorAll(".services__tab")];
+  const panels = tabs.map((t) => document.getElementById(t.getAttribute("aria-controls")));
+  const all = new Map(); // id -> element, for every circle in every layout
+  let shown = new Set();
+  let active = tabs[0].dataset.id;
 
-// finish anything still running so a quick second click starts from a clean state
-const settleImgs = () => {
-  clearTimeout(wipeTimer);
-  svcImgs.forEach((img) => {
-    img.getAnimations().forEach((a) => a.cancel());
-    img.classList.remove("is-leaving");
-    img.style.zIndex = "";
-  });
-};
-
-const wipeTo = (next, dir) => {
-  const prev = svcImgs.find((img) => img.classList.contains("is-on"));
-  settleImgs();
-  if (!prev || prev === next) return;
-  prev.classList.remove("is-on");
-  next.classList.add("is-on");
-  if (!svcMotion) return;
-
-  prev.classList.add("is-leaving");
-  next.style.zIndex = 2;
-  const k = SLANT;
-  const [from, to] = dir > 0
-    ? [`polygon(100% 0%, ${100 + k}% 0%, ${100 + k}% 100%, ${100 + k}% 100%)`,
-       `polygon(${-k}% 0%, ${100 + k}% 0%, ${100 + k}% 100%, 0% 100%)`]
-    : [`polygon(${-k}% 0%, ${-k}% 0%, 0% 100%, ${-k}% 100%)`,
-       `polygon(${-k}% 0%, 100% 0%, ${100 + k}% 100%, ${-k}% 100%)`];
-  next.animate([{ clipPath: from }, { clipPath: to }], { duration: WIPE_MS, easing: WIPE_EASE });
-  next.animate(
-    [{ transform: `translateX(${dir * 8}%) scale(1.08)` }, { transform: "none" }],
-    { duration: WIPE_MS + 500, easing: SETTLE_EASE }
-  );
-  prev.animate(
-    [{ transform: "none" }, { transform: `translateX(${dir * -6}%)` }],
-    { duration: WIPE_MS, easing: WIPE_EASE, fill: "forwards" }
-  );
-  // cleanup on a timer too; the end state is just the classes, so cancelling is safe
-  clearTimeout(wipeTimer);
-  wipeTimer = setTimeout(() => {
-    prev.getAnimations().forEach((a) => a.cancel());
-    prev.classList.remove("is-leaving");
-    next.style.zIndex = "";
-  }, WIPE_MS);
-};
-
-// roll a line of text up out of its mask, swap it, and roll the new one in from
-// below. The swap runs on a timer, not on the animation finishing, so the text
-// always updates even where animations are paused (e.g. a background tab).
-const ROLL_OUT_MS = 260;
-const rollText = (el, text) => {
-  if (!el) return;
-  clearTimeout(el._rollTimer);
-  el.getAnimations().forEach((a) => a.cancel());
-  if (!svcMotion) { el.textContent = text; return; }
-  el.animate([{ transform: "none" }, { transform: "translateY(-110%)" }], { duration: ROLL_OUT_MS, easing: "cubic-bezier(0.5, 0, 0.75, 0)", fill: "forwards" });
-  el._rollTimer = setTimeout(() => {
-    el.getAnimations().forEach((a) => a.cancel());
-    el.textContent = text;
-    el.animate([{ transform: "translateY(110%)" }, { transform: "none" }], { duration: 650, easing: SETTLE_EASE });
-  }, ROLL_OUT_MS);
-};
-
-const selectTab = (tab) => {
-  const index = tabs.indexOf(tab);
-  if (index === svcIndex) return;
-  const dir = index > svcIndex ? 1 : -1;
-  svcIndex = index;
-  tabs.forEach((t) => {
-    const on = t === tab;
-    const panel = document.getElementById(t.getAttribute("aria-controls"));
-    t.setAttribute("aria-selected", String(on));
-    t.tabIndex = on ? 0 : -1;
-    panel.hidden = !on;
-    if (on) {
-      const id = panel.id.replace("panel-", "");
-      const img = svcImgs.find((im) => im.dataset.for === id);
-      if (img) wipeTo(img, dir);
-      rollText(svcNum, panel.dataset.num);
-      rollText(svcName, panel.dataset.name);
-      const title = panel.querySelector(".menu-panel__title > span");
-      if (title && svcMotion) {
-        title.animate([{ transform: "translateY(110%)" }, { transform: "none" }], { duration: 850, delay: 120, easing: SETTLE_EASE, fill: "backwards" });
-      }
+  const make = (def) => {
+    const el = document.createElement("div");
+    el.className = "bubble is-hidden";
+    const inner = document.createElement("div");
+    inner.className = `bubble__in${def.tone ? ` bubble--${def.tone}` : ""}`;
+    if (def.img) {
+      const img = document.createElement("img");
+      img.src = def.img;
+      img.alt = "";
+      if (def.pos) img.style.objectPosition = def.pos;
+      inner.append(img);
+    } else if (def.text) {
+      const span = document.createElement("span");
+      span.textContent = def.text;
+      inner.append(span);
     }
+    el.append(inner);
+    return el;
+  };
+  const place = (el, def) => {
+    el.style.setProperty("--x", def.x);
+    el.style.setProperty("--y", def.y);
+    el.style.setProperty("--d", def.d);
+  };
+  // circles open roughly from the top of the cluster down, like a pour
+  const byHeight = (defs) => [...defs].sort((a, b) => a.y - b.y);
+
+  Object.values(layouts).forEach((defs) => {
+    if (!Array.isArray(defs)) return;
+    defs.forEach((def) => {
+      if (all.has(def.id)) return;
+      const el = make(def);
+      place(el, def);
+      stage.append(el);
+      all.set(def.id, el);
+    });
   });
-};
-tabs.forEach((tab, i) => {
-  tab.addEventListener("click", () => selectTab(tab));
-  tab.addEventListener("keydown", (e) => {
-    const dir = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
-    if (!dir) return;
-    const next = tabs[(i + dir + tabs.length) % tabs.length];
-    selectTab(next);
-    next.focus();
+  const ready = Promise.all([...stage.querySelectorAll("img")].map((img) => img.decode().catch(() => {})));
+
+  // Works out the change and returns a function that starts it. Leaving and
+  // gliding start straight away; the arrivals open when the returned function runs.
+  const render = (id, { intro = false } = {}) => {
+    const defs = layouts[id];
+    const keep = new Set(defs.map((d) => d.id));
+
+    let out = 0;
+    shown.forEach((key) => {
+      if (keep.has(key)) return;
+      const el = all.get(key);
+      el.style.setProperty("--pop-delay", `${out++ * 0.035}s`);
+      el.classList.add("is-hidden");
+    });
+
+    const arriving = [];
+    defs.forEach((def) => {
+      const el = all.get(def.id);
+      if (shown.has(def.id)) {
+        el.style.setProperty("--delay", "0.1s");
+        place(el, def);
+      } else {
+        // jump (hidden) to where it will open
+        el.classList.add("is-placing");
+        el.style.setProperty("--delay", "0s");
+        place(el, def);
+        arriving.push(def);
+      }
+    });
+    shown = keep;
+
+    void stage.offsetWidth; // commit the jumps before glides are allowed again
+    arriving.forEach((def) => all.get(def.id).classList.remove("is-placing"));
+
+    const start = intro ? 0 : 0.28;
+    return () => byHeight(arriving).forEach((def, i) => {
+      if (!shown.has(def.id)) return; // switched away again in the meantime
+      const el = all.get(def.id);
+      el.style.setProperty("--pop-delay", `${start + i * 0.06}s`);
+      el.classList.remove("is-hidden");
+    });
+  };
+
+  const showPanel = (next) => panels.forEach((p) => {
+    const on = p === next;
+    p.hidden = !on;
+    p.classList.remove("is-entering");
+    if (on && !reduce) { void p.offsetWidth; p.classList.add("is-entering"); }
   });
-});
+
+  const select = (tab) => {
+    const id = tab.dataset.id;
+    if (id === active) return;
+    active = id;
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute("aria-selected", String(on));
+      t.tabIndex = on ? 0 : -1;
+    });
+    showPanel(panels[tabs.indexOf(tab)]);
+    requestAnimationFrame(render(id));
+  };
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener("click", () => select(tab));
+    tab.addEventListener("keydown", (e) => {
+      const dir = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+      if (!dir) return;
+      e.preventDefault();
+      const next = tabs[(i + dir + tabs.length) % tabs.length];
+      next.focus();
+      select(next);
+    });
+  });
+
+  // first cluster pours in once its photos are decoded and the section is in view
+  const playIntro = render(active, { intro: true });
+  const inView = new Promise((resolve) => {
+    if (!("IntersectionObserver" in window) || reduce) return resolve();
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      io.disconnect();
+      resolve();
+    }, { threshold: 0.35 });
+    io.observe(stage);
+  });
+  Promise.all([ready, inView]).then(() => requestAnimationFrame(playIntro));
+})();
 
 // Studio reel: plays the clips in order (1 → 4) on a loop, crossfading between
 // them. Each next clip starts loading while the current one plays. Pauses when

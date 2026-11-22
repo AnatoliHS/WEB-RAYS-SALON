@@ -1,0 +1,111 @@
+---
+layout: base.njk
+permalink: /menu-concepts/
+title: Menu concepts
+description: Prototype comparison of two layouts for The Menu section.
+robots: noindex, nofollow
+eleventyExcludeFromCollections: true
+---
+{% import "macros.njk" as m %}
+{#
+  Prototype page: two takes on "The Menu" section, side by side for review.
+  Not linked from the site and kept out of the sitemap. Uses the real
+  services list (src/_data/services.json); imagery is placeholder.
+  Concept B's circle layouts live in src/_data/menuBubbles.json.
+#}
+{%- macro panel(group, idx) -%}
+<p class="cx-panel__num">0{{ idx }}</p>
+<h3 class="cx-panel__title">{{ group.title }}</h3>
+<p class="cx-panel__intro">{{ group.intro }}</p>
+<ul class="cx-list">
+  {% for item in group.items %}
+  <li><span class="cx-list__name">{{ item.name }}</span><span class="cx-list__note">{{ item.note }}</span></li>
+  {% endfor %}
+</ul>
+<div class="cx-panel__cta">
+  <a class="btn" href="/#book">Book {{ group.title | lower }}</a>
+  {{ m.call(site, "link", "Call with a question") }}
+</div>
+{%- endmacro %}
+
+<link rel="stylesheet" href="/assets/css/concepts.css" />
+
+<header class="cx-head">
+  <div class="wrap">
+    <p class="eyebrow eyebrow--light">Prototype · not linked from the site</p>
+    <h1 class="cx-head__title">The Menu, <em>two ways.</em></h1>
+    <p class="cx-head__note">Both concepts use the real services list with placeholder photos. Switch categories in each to compare the motion.</p>
+    <nav class="cx-head__jump" aria-label="Concepts">
+      <a class="link link--light" href="#concept-a">A · Swap rail</a>
+      <a class="link link--light" href="#concept-b">B · Bubble tabs</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ Concept A: swap rail ============ -->
+<section class="cx-concept swap" id="concept-a" aria-labelledby="a-title">
+  <div class="wrap cx-label">
+    <span class="cx-label__tag">Concept A</span>
+    <span class="cx-label__text"><strong>Swap rail.</strong> The thumbnail you pick flies out to become the feature photo, and the current photo shrinks back into its place in the rail.</span>
+  </div>
+
+  <div class="wrap swap__grid" data-swap>
+    <p class="swap__count" aria-hidden="true"><span data-swap-num>01</span> / 0{{ services.length }}</p>
+
+    <div class="swap__rail" role="group" aria-label="Choose a service category">
+      {% for group in services %}{% if not loop.first %}
+      <button class="swap__thumb" type="button" data-index="{{ loop.index0 }}" aria-label="Show {{ group.title }}">
+        <span class="swap__thumb-img"><img src="{{ group.image.src }}" alt="" style="object-position: {{ group.image.pos }}" loading="lazy" /></span>
+        <span class="swap__thumb-name">{{ group.title }}</span>
+      </button>
+      {% endif %}{% endfor %}
+    </div>
+
+    <div class="swap__copy">
+      <p class="eyebrow">The Menu</p>
+      <h2 id="a-title" class="swap__title">Services, <em>considered.</em></h2>
+      <div aria-live="polite">
+        {% for group in services %}
+        <div class="cx-panel" data-panel="{{ loop.index0 }}" {% if not loop.first %}hidden{% endif %}>{{ panel(group, loop.index) }}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <figure class="swap__stage">
+      <img data-swap-stage src="{{ services[0].image.src }}" alt="{{ services[0].image.alt }}" style="object-position: {{ services[0].image.pos }}" />
+    </figure>
+  </div>
+</section>
+
+<!-- ============ Concept B: bubble tabs ============ -->
+<section class="cx-concept bubbles" id="concept-b" aria-labelledby="b-title">
+  <div class="wrap cx-label">
+    <span class="cx-label__tag">Concept B</span>
+    <span class="cx-label__text"><strong>Bubble tabs.</strong> Each category has its own cluster of photos and highlights. Switching tabs lets shared circles glide to new spots while the rest pop out and in.</span>
+  </div>
+
+  <div class="wrap bubbles__view">
+    <header class="bubbles__head">
+      <p class="eyebrow">The Menu</p>
+      <h2 id="b-title" class="bubbles__title">Services, <em>considered.</em></h2>
+      <div class="bubbles__tabs" role="tablist" aria-label="Service categories">
+        {% for group in services %}
+        <button class="bubbles__tab" role="tab" id="btab-{{ group.id }}" data-id="{{ group.id }}" aria-controls="bpanel-{{ group.id }}" aria-selected="{{ 'true' if loop.first else 'false' }}" {% if not loop.first %}tabindex="-1"{% endif %}>{{ group.title }}</button>
+        {% endfor %}
+      </div>
+    </header>
+
+    <div class="bubbles__body">
+      <div class="bubbles__panels">
+        {% for group in services %}
+        <div class="cx-panel" role="tabpanel" id="bpanel-{{ group.id }}" aria-labelledby="btab-{{ group.id }}" {% if not loop.first %}hidden{% endif %}>{{ panel(group, loop.index) }}</div>
+        {% endfor %}
+      </div>
+      <div class="bubbles__stage" data-bubbles aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<script type="application/json" id="cx-services">{{ services | dump | safe }}</script>
+<script type="application/json" id="cx-bubbles">{{ menuBubbles | dump | safe }}</script>
+<script src="/assets/js/concepts.js" defer></script>
