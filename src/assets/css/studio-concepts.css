@@ -1,0 +1,312 @@
+/* ==========================================================================
+   /studio-concepts/ prototype: six frames for the Studio reel + photo.
+   Loaded only on that page; builds on the tokens in site.css.
+   ========================================================================== */
+
+/* ---------- Page header + concept labels ---------- */
+
+.sc-head {
+  background: var(--onyx);
+  color: var(--ivory);
+  padding: calc(var(--nav-h) + clamp(3rem, 8vw, 6rem)) 0 clamp(3rem, 7vw, 5rem);
+}
+.sc-head__title { font-family: var(--serif); font-size: clamp(2.75rem, 7vw, 5.5rem); line-height: 1; letter-spacing: -0.02em; margin-bottom: 1.25rem; }
+.sc-head__title em { color: var(--champagne); }
+.sc-head__note { color: var(--mute-light); max-width: 52ch; }
+.sc-head__jump { display: flex; flex-wrap: wrap; gap: 1rem 2.25rem; margin-top: 2rem; }
+
+.sc-concept {
+  --bg: var(--ivory);
+  background: var(--bg);
+  padding-block: clamp(2.5rem, 5vw, 4rem) var(--section);
+  overflow-x: clip; /* overlapping pieces never cause sideways scroll */
+}
+.sc-concept:nth-of-type(even) { --bg: #f1e9df; }
+.sc-concept + .sc-concept { border-top: 1px solid var(--line); }
+
+.sc-label {
+  display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap;
+  padding-bottom: 1.25rem; margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  border-bottom: 1px dashed rgba(29, 29, 29, 0.25);
+  font-size: 0.9375rem; color: var(--mute);
+}
+.sc-label__tag {
+  flex: none; padding: 0.3rem 0.75rem; border-radius: 99px;
+  background: var(--onyx); color: var(--ivory);
+  font-size: 0.6875rem; letter-spacing: 0.2em; text-transform: uppercase;
+}
+.sc-label__text { max-width: 70ch; }
+.sc-label__text strong { color: var(--ink); font-weight: 500; }
+
+/* ---------- Shared layout ---------- */
+
+.sc-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(2.5rem, 7vw, 6.5rem);
+  align-items: center;
+}
+.sc-media { position: relative; width: 100%; margin-inline: auto; }
+.sc-copy > p { color: var(--mute); }
+
+/* the reel: four clips stacked, crossfading (studio-concepts.js) */
+.sc-reel {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate; /* keeps rounded clipping on <video> in Safari */
+  background: #2a2522 url("/assets/video/studio-poster.jpg") center / cover no-repeat;
+}
+.sc-clip {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.1s var(--ease);
+}
+.sc-clip.is-on { opacity: 1; }
+.sc-reel::after { content: ""; position: absolute; inset: 0; background: rgba(21, 21, 21, 0.18); pointer-events: none; }
+
+.sc-photo { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.sc-star { fill: var(--champagne-deep); width: 14px; height: 14px; }
+.sc-caption {
+  margin: 1.25rem 0 0; text-align: center;
+  font-family: var(--serif); font-style: italic; font-size: 1.05rem;
+  color: var(--champagne-deep); letter-spacing: 0.02em;
+}
+
+@media (max-width: 900px) {
+  .sc-grid { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   1 · Arch window
+   ========================================================================== */
+
+.sc-arch .sc-media { max-width: 440px; }
+.arch__window { position: relative; padding: 18px; }
+.sc-arch .sc-reel { aspect-ratio: 3 / 4; border-radius: 999px 999px 3px 3px; }
+/* two hairline arches around the reel */
+.arch__window::before,
+.arch__window::after {
+  content: ""; position: absolute; pointer-events: none;
+  border: 1px solid var(--champagne);
+  border-radius: 999px 999px 4px 4px;
+}
+.arch__window::before { inset: 0; }
+.arch__window::after { inset: 8px; opacity: 0.55; }
+.arch__key { position: absolute; top: -7px; left: 50%; translate: -50% 0; z-index: 2; background: var(--bg); padding: 0 3px; box-sizing: content-box; }
+.arch__spark { position: absolute; width: 9px; height: 9px; fill: var(--champagne); }
+.arch__spark--1 { top: 14%; left: -6%; }
+.arch__spark--2 { top: 4%; right: 4%; width: 7px; height: 7px; }
+.arch__photo {
+  position: absolute; z-index: 1;
+  right: -26%; bottom: 8%; width: 44%;
+  aspect-ratio: 3 / 4;
+  border-radius: 999px 999px 3px 3px; overflow: hidden;
+  border: 8px solid var(--bg);
+  outline: 1px solid var(--champagne); outline-offset: 3px;
+}
+@media (max-width: 900px) { .arch__photo { right: -6%; width: 38%; } }
+
+/* ==========================================================================
+   2 · Oval cameo
+   ========================================================================== */
+
+.sc-oval .sc-media { max-width: 420px; aspect-ratio: 3 / 4; }
+.sc-oval .sc-reel { position: absolute; inset: 6%; border-radius: 50%; }
+.oval__ring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.oval__beads { fill: none; stroke: var(--champagne-deep); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 0 8.4; }
+.oval__hair { fill: none; stroke: var(--champagne); stroke-width: 0.8; }
+.oval__laurel { fill: var(--champagne-deep); }
+.oval__laurel path { fill: none; stroke: var(--champagne-deep); stroke-width: 1; }
+.oval__laurel ellipse, .oval__laurel circle { stroke: var(--bg); stroke-width: 1.5; paint-order: stroke; }
+.oval__locket {
+  position: absolute; z-index: 1;
+  right: -16%; bottom: 9%; width: 40%;
+  aspect-ratio: 1; border-radius: 50%; overflow: hidden;
+  border: 7px solid var(--bg);
+  outline: 1px solid var(--champagne-deep); outline-offset: 3px;
+}
+.oval__badge {
+  position: absolute; top: 1%; left: -14%; width: 30%;
+  animation: sc-spin 40s linear infinite;
+  font-family: var(--sans); font-size: 10.4px; letter-spacing: 0.17em;
+  fill: var(--champagne-deep);
+}
+.oval__badge-star { fill: var(--champagne); }
+@media (max-width: 900px) {
+  .oval__locket { right: -4%; width: 34%; }
+  .oval__badge { left: -4%; width: 26%; }
+}
+
+/* ==========================================================================
+   3 · Sunburst
+   ========================================================================== */
+
+.sc-sun .sc-media { max-width: 500px; aspect-ratio: 1; }
+.sc-sun .sc-reel {
+  position: absolute; inset: 19%; border-radius: 50%;
+  box-shadow: 0 0 0 7px var(--bg), 0 0 0 8px var(--champagne);
+}
+.sun__rays {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: repeating-conic-gradient(var(--champagne) 0 0.35deg, transparent 0.35deg 7.5deg);
+  -webkit-mask: radial-gradient(closest-side, transparent 68%, #000 69%, transparent 100%);
+          mask: radial-gradient(closest-side, transparent 68%, #000 69%, transparent 100%);
+  animation: sc-spin 160s linear infinite;
+}
+.sun__rays--short {
+  inset: 8%;
+  rotate: 3.75deg;
+  background: repeating-conic-gradient(var(--champagne-deep) 0 0.5deg, transparent 0.5deg 7.5deg);
+  -webkit-mask: radial-gradient(closest-side, transparent 80%, #000 81%, transparent 100%);
+          mask: radial-gradient(closest-side, transparent 80%, #000 81%, transparent 100%);
+  animation-direction: reverse;
+}
+.sun__rise {
+  position: absolute; z-index: 1;
+  left: -10%; bottom: -2%; width: 48%;
+  aspect-ratio: 2 / 1;
+  border-radius: 999px 999px 0 0; overflow: hidden;
+  border: 7px solid var(--bg); border-bottom: 0;
+}
+.sun__horizon {
+  position: absolute; z-index: 1; left: -18%; bottom: -2%; width: 66%;
+  height: 1px; background: linear-gradient(90deg, transparent, var(--champagne-deep) 15% 85%, transparent);
+}
+@media (max-width: 900px) {
+  .sun__rise { left: -2%; width: 44%; }
+  .sun__horizon { left: -6%; width: 56%; }
+}
+
+/* ==========================================================================
+   4 · Vanity mirror (frame + bulbs are one SVG, 300 × 420 units)
+   ========================================================================== */
+
+.sc-vanity .sc-media { max-width: 420px; aspect-ratio: 300 / 420; }
+.vanity__frame { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 18px 30px rgba(80, 55, 30, 0.14)); }
+.vanity__hair { fill: none; stroke: rgba(255, 255, 255, 0.55); stroke-width: 0.8; }
+.vanity__bulb-core { fill: #fffaf0; stroke: rgba(156, 123, 87, 0.45); stroke-width: 0.6; }
+.vanity__bulb { animation: sc-twinkle 3.2s ease-in-out infinite; animation-delay: calc(var(--i) * -0.37s); }
+/* the glass: inset to the inner edge of the frame band (26 units) */
+.vanity__glass {
+  position: absolute;
+  inset: calc(26 / 420 * 100%) calc(26 / 300 * 100%);
+  border-radius: 999px 999px 3px 3px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+.vanity__glass::before { /* a soft diagonal sheen across the mirror */
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.14) 38%, transparent 46%);
+}
+.vanity__tuck {
+  position: absolute; z-index: 2;
+  right: -22%; bottom: 12%; width: 46%;
+  aspect-ratio: 4 / 3;
+  padding: 6px; background: #fffdf8;
+  rotate: 7deg;
+  box-shadow: 0 10px 24px rgba(40, 28, 16, 0.18);
+}
+@media (max-width: 900px) { .vanity__tuck { right: -6%; width: 40%; } }
+
+/* ==========================================================================
+   5 · Postcard & stamp
+   ========================================================================== */
+
+.sc-post .sc-media { max-width: 560px; padding-top: 2.5rem; }
+.post__card {
+  padding: 14px 14px 0;
+  background: #fffdf9;
+  rotate: -1.6deg;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 16px 36px rgba(60, 40, 20, 0.12);
+}
+.sc-post .sc-reel { aspect-ratio: 4 / 3; }
+.post__note {
+  margin: 0; padding: 0.85rem 0.25rem 1rem;
+  font-family: var(--serif); font-style: italic; font-size: 1.25rem;
+  color: var(--champagne-deep);
+}
+/* perforated edge: a paper layer full of holes sits behind the photo, so only
+   the half-holes along the outside edge show */
+.post__stamp {
+  position: absolute; z-index: 1;
+  top: 0; right: -8%; width: 32%;
+  aspect-ratio: 4 / 5;
+  padding: 11px;
+  rotate: 5deg;
+  filter: drop-shadow(0 6px 12px rgba(60, 40, 20, 0.16));
+}
+.post__stamp::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: #fffdf9;
+  -webkit-mask: radial-gradient(circle, transparent 4.5px, #000 5px) -6px -6px / 12px 12px round;
+          mask: radial-gradient(circle, transparent 4.5px, #000 5px) -6px -6px / 12px 12px round;
+}
+.post__stamp .sc-photo { outline: 1px solid rgba(156, 123, 87, 0.35); outline-offset: 3px; }
+.post__mark {
+  position: absolute; z-index: 2;
+  top: 33%; right: 13%; width: 40%;
+  rotate: -10deg;
+  fill: none; stroke: var(--champagne-deep); stroke-width: 1.4;
+  opacity: 0.85;
+  font-family: var(--sans); font-size: 9px; letter-spacing: 0.22em;
+}
+.post__mark text { fill: var(--champagne-deep); stroke: none; }
+.post__mark .post__mark-date { font-family: var(--serif); font-size: 15px; letter-spacing: 0.06em; }
+@media (max-width: 900px) {
+  .post__stamp { right: -2%; width: 28%; }
+  .post__mark { right: 16%; top: 26%; }
+}
+
+/* ==========================================================================
+   6 · French window
+   ========================================================================== */
+
+.sc-window .sc-media { max-width: 480px; }
+.window__frame {
+  position: relative;
+  padding: 12px;
+  background: #fbf8f3;
+  border-radius: 999px 999px 0 0;
+  box-shadow: 0 0 0 1px var(--champagne), 0 0 0 7px var(--bg), 0 0 0 8px rgba(194, 162, 124, 0.45);
+}
+.window__panes {
+  display: grid; grid-template-columns: 1.7fr 1fr; gap: 10px;
+  aspect-ratio: 4 / 5;
+  border-radius: 999px 999px 0 0; overflow: hidden; isolation: isolate;
+}
+.window__pane { position: relative; overflow: hidden; }
+.window__panes > .sc-reel { height: 100%; }
+/* glazing bars: a fanlight (spokes + hub) over the arch, closed by a transom */
+.window__fan {
+  position: absolute; left: 12px; top: 12px;
+  width: calc(100% - 24px); height: auto; overflow: visible;
+  border-bottom: 8px solid #fbf8f3;
+  box-sizing: content-box;
+  fill: none; stroke: #fbf8f3; stroke-width: 2.6;
+  pointer-events: none;
+}
+.window__sill {
+  position: relative;
+  height: 14px; margin: 0 -7%;
+  background: #f1e8dc;
+  border: 1px solid rgba(156, 123, 87, 0.4);
+  box-shadow: 0 8px 18px rgba(60, 40, 20, 0.08);
+}
+.window__vase { position: absolute; right: 9%; bottom: 100%; width: 34px; height: auto; }
+.window__stem { fill: none; stroke: #8a8a5f; stroke-width: 1.4; }
+.window__leaf { fill: #9a9b6a; }
+.window__bud { fill: #e3b7a5; }
+.window__glass { fill: rgba(255, 255, 255, 0.5); stroke: var(--champagne-deep); stroke-width: 1; }
+
+/* ---------- Motion ---------- */
+
+@keyframes sc-spin { to { rotate: 360deg; } }
+@keyframes sc-twinkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+.sun__rays--short { animation-name: sc-spin-short; }
+@keyframes sc-spin-short { from { rotate: 3.75deg; } to { rotate: -356.25deg; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .oval__badge, .sun__rays, .vanity__bulb { animation: none; }
+}

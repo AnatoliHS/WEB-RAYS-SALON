@@ -1,0 +1,152 @@
+/* ==========================================================================
+   Storefront palette prototypes (/palette-concepts/).
+   Each palette re-points the site.css tokens under [data-palette="…"], so it
+   works on the whole homepage (set on <html>) or on any small preview block.
+   The hero and the lookbook keep their original near-black on purpose.
+
+   Colours sampled from the shopfront at 247 Division St:
+     sea-teal cornice #5ea3b5 · deep teal sign panels #17606f
+     cream sign #efe6d3 · navy lettering #2b3550 · brick #8f4428
+     dentil green #326868 · sandstone sidewalk #d3beab
+   ========================================================================== */
+
+/* ---------- Original: the first palette, before Main Street ---------- */
+[data-palette="original"] {
+  --ivory: #f7f2ec;
+  --cream: #efe7dd;
+  --sand: #e2d6c8;
+  --onyx: #151515;
+  --ink: #1d1d1d;
+  --mute: #686868;
+  --mute-light: #b4b4b4;
+  --champagne: #c2a27c;
+  --champagne-deep: #9c7b57;
+  --line: rgba(29, 29, 29, 0.14);
+  --line-light: rgba(247, 242, 236, 0.18);
+  --nav-bg: rgba(247, 242, 236, 0.94);
+  --services-bg: #f8f4ee;
+  --wave-0: rgba(29, 29, 29, 0.14);
+  --wave-1: #d8b88d;
+  --wave-2: #a9753f;
+  --em: #9c7b57;
+}
+
+/* ---------- 1 · Storefront: the shopfront as it stands ---------- */
+[data-palette="storefront"] {
+  --ivory: #f5efe4;
+  --cream: #ebe2d2;
+  --sand: #dccfba;
+  --onyx: #173f47;
+  --ink: #23304a;
+  --mute: #5d6470;
+  --mute-light: #a9bcc0;
+  --champagne: #7fb7c4;
+  --champagne-deep: #2a6f7c;
+  --line: rgba(35, 48, 74, 0.15);
+  --line-light: rgba(245, 239, 228, 0.2);
+  --nav-bg: rgba(245, 239, 228, 0.94);
+  --services-bg: #f0e8db;
+  --wave-0: rgba(35, 48, 74, 0.14);
+  --wave-1: #8cc0cb;
+  --wave-2: #2a6f7c;
+  --em: #9a4a33; /* a touch of brick on the italic words */
+}
+
+/* ---------- 2 · Brick & Cream: warm, the brick leads ---------- */
+[data-palette="brick"] {
+  --ivory: #f6eee4;
+  --cream: #eddfcf;
+  --sand: #e0c9b4;
+  --onyx: #2e1c17;
+  --ink: #2a1d19;
+  --mute: #6e5f58;
+  --mute-light: #c0aea4;
+  --champagne: #d99a7f;
+  --champagne-deep: #9a4128;
+  --line: rgba(42, 29, 25, 0.14);
+  --line-light: rgba(246, 238, 228, 0.18);
+  --nav-bg: rgba(246, 238, 228, 0.94);
+  --services-bg: #f2e7db;
+  --wave-0: rgba(42, 29, 25, 0.14);
+  --wave-1: #e2a68a;
+  --wave-2: #9a4128;
+  --em: #2a6f7c; /* the teal sign panel as the second voice */
+}
+
+/* ---------- 3 · Sea Glass: the cornice teal, cool and calm ---------- */
+[data-palette="seaglass"] {
+  --ivory: #eef3f2;
+  --cream: #e2ebea;
+  --sand: #cfdedd;
+  --onyx: #12383f;
+  --ink: #15282d;
+  --mute: #57686b;
+  --mute-light: #a7bcbe;
+  --champagne: #8cc3cf;
+  --champagne-deep: #2c7585;
+  --line: rgba(21, 40, 45, 0.14);
+  --line-light: rgba(238, 243, 242, 0.18);
+  --nav-bg: rgba(238, 243, 242, 0.94);
+  --services-bg: #e6eeed;
+  --wave-0: rgba(21, 40, 45, 0.14);
+  --wave-1: #9fd0da;
+  --wave-2: #2c7585;
+  --em: #2c7585;
+}
+
+/* ---------- 4 · Navy Sign: cream board, navy letters, brass ---------- */
+[data-palette="navy"] {
+  --ivory: #f7f1e6;
+  --cream: #eee4d3;
+  --sand: #e0d3bd;
+  --onyx: #1d2742;
+  --ink: #1d2742;
+  --mute: #5f6475;
+  --mute-light: #aeb3c2;
+  --champagne: #c9a878;
+  --champagne-deep: #85633b;
+  --line: rgba(29, 39, 66, 0.14);
+  --line-light: rgba(247, 241, 230, 0.18);
+  --nav-bg: rgba(247, 241, 230, 0.94);
+  --services-bg: #f2eadc;
+  --wave-0: rgba(29, 39, 66, 0.14);
+  --wave-1: #d6b88a;
+  --wave-2: #85633b;
+  --em: #85633b;
+}
+
+/* ---------- 5 · Main Street: teal and brick together, bolder ---------- */
+[data-palette="main"] {
+  --ivory: #fbf7f1;
+  --cream: #f1e7da;
+  --sand: #e4d5c3;
+  --onyx: #0f4c55;
+  --ink: #1a2426;
+  --mute: #5b6466;
+  --mute-light: #9fc3c8;
+  --champagne: #eeab8c;
+  --champagne-deep: #a8432b;
+  --line: rgba(26, 36, 38, 0.14);
+  --line-light: rgba(251, 247, 241, 0.2);
+  --nav-bg: rgba(251, 247, 241, 0.94);
+  --services-bg: #f5eee4;
+  --wave-0: rgba(26, 36, 38, 0.14);
+  --wave-1: #eeab8c;
+  --wave-2: #a8432b;
+  --em: #a8432b;
+}
+
+/* ---------- Shared rules ---------- */
+
+/* the hero and the full-screen lookbook stay near-black: the photography
+   was graded for it, and the overlays are tuned to #151515 */
+[data-palette] .hero,
+[data-palette] .lookbook { --onyx: #151515; }
+
+/* italic accent words take the palette's second colour */
+[data-palette] em { color: var(--em); }
+[data-palette] .fill-wave em { --fw-final: var(--em); }
+
+/* small decorative touches that were hard-coded warm */
+[data-palette] .studio__reel { background-color: var(--onyx); }
+[data-palette] .map--b .m-pin__halo { fill: var(--champagne); fill-opacity: 0.32; }

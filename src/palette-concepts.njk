@@ -1,0 +1,151 @@
+---
+layout: base.njk
+permalink: /palette-concepts/
+title: Palette concepts
+description: Prototype comparison of five colour palettes drawn from the Rays shopfront.
+robots: noindex, nofollow
+eleventyExcludeFromCollections: true
+---
+{#
+  Prototype page: five colour palettes taken from the shopfront photo, next to
+  the current one. Not linked from the site and kept out of the sitemap.
+  Palettes: src/assets/css/palettes.css (token overrides, scoped by
+  [data-palette]). The live preview injects that file into the real homepage
+  in an iframe and flips <html data-palette> (palette-concepts.js).
+#}
+{%- set palettes = [
+  { id: "original", name: "Original", tag: "Before", note: "The first palette: warm ivory, off-black and champagne. Here for reference.",
+    sw: [["Page", "#f7f2ec"], ["Dark", "#151515"], ["Text", "#1d1d1d"], ["Accent", "#9c7b57"], ["On dark", "#c2a27c"], ["Italic", "#9c7b57"]] },
+  { id: "storefront", name: "Storefront", tag: "Palette 1", note: "The shopfront as it stands: cream sign board, navy lettering and deep teal panels, with a touch of brick on the italic words.",
+    sw: [["Page", "#f5efe4"], ["Dark", "#173f47"], ["Text", "#23304a"], ["Accent", "#2a6f7c"], ["On dark", "#7fb7c4"], ["Italic", "#9a4a33"]] },
+  { id: "brick", name: "Brick & Cream", tag: "Palette 2", note: "Warm and cosy, led by the brick. Espresso-brown dark sections, terracotta accents, and the teal panel kept as a second colour for the italic words.",
+    sw: [["Page", "#f6eee4"], ["Dark", "#2e1c17"], ["Text", "#2a1d19"], ["Accent", "#9a4128"], ["On dark", "#d99a7f"], ["Italic", "#2a6f7c"]] },
+  { id: "seaglass", name: "Sea Glass", tag: "Palette 3", note: "Only the cornice teal, cool and calm. A pale sea-glass page and deep lagoon dark sections. The quietest of the five.",
+    sw: [["Page", "#eef3f2"], ["Dark", "#12383f"], ["Text", "#15282d"], ["Accent", "#2c7585"], ["On dark", "#8cc3cf"], ["Italic", "#2c7585"]] },
+  { id: "navy", name: "Navy Sign", tag: "Palette 4", note: "The sign board itself: navy letters on cream. Navy replaces black, and the current brass stays as the accent. The closest to today.",
+    sw: [["Page", "#f7f1e6"], ["Dark", "#1d2742"], ["Text", "#1d2742"], ["Accent", "#85633b"], ["On dark", "#c9a878"], ["Italic", "#85633b"]] },
+  { id: "main", name: "Main Street", tag: "Palette 5 · Live", note: "Teal and brick side by side, the boldest option. Rich teal for buttons and dark sections, brick for eyebrows and italic words.",
+    sw: [["Page", "#fbf7f1"], ["Dark", "#0f4c55"], ["Text", "#1a2426"], ["Accent", "#a8432b"], ["On dark", "#eeab8c"], ["Italic", "#a8432b"]] }
+] -%}
+
+<link rel="stylesheet" href="/assets/css/palettes.css" />
+<link rel="stylesheet" href="/assets/css/palette-concepts.css" />
+
+<header class="pc-head">
+  <div class="wrap">
+    <p class="eyebrow eyebrow--light">Prototype · not linked from the site</p>
+    <h1 class="pc-head__title">Colours from <em>the shopfront.</em></h1>
+    <p class="pc-head__note">Five palettes taken from 247 Division St, next to the original one. Main Street is now the live palette. The dark hero and the full-screen gallery stay near-black in every version. Everything else changes: page, text, accents, buttons, Services, Visit and footer.</p>
+    <nav class="pc-head__jump" aria-label="Sections">
+      <a class="link link--light" href="#source">The source</a>
+      <a class="link link--light" href="#compare">Side by side</a>
+      <a class="link link--light" href="#live">Live on the homepage</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ Source photo + sampled colours ============ -->
+<section class="pc-source" id="source" aria-labelledby="source-title">
+  <div class="wrap pc-source__grid">
+    <figure class="pc-source__photo">
+      <img src="/assets/img/storefront.jpg" width="734" height="966" alt="The Rays Beauty Salon shopfront: red brick, a teal cornice and sign panels, and a cream sign with navy lettering" />
+    </figure>
+    <div>
+      <p class="eyebrow">The source</p>
+      <h2 id="source-title" class="h2">What the building already says.</h2>
+      <p class="pc-muted">These colours were picked by eye from the photo, then nudged so text stays readable on screen (at least 4.5:1 contrast).</p>
+      <ul class="pc-sample">
+        {%- for s in [
+          ["#5ea3b5", "Sea-teal cornice", "Upper trim and moulding"],
+          ["#17606f", "Deep teal panels", "Either side of the sign"],
+          ["#326868", "Dentil green", "The little blocks under the cornice"],
+          ["#efe6d3", "Cream sign board", "Behind the lettering"],
+          ["#2b3550", "Navy lettering", "“Rays Beauty Salon”"],
+          ["#8f4428", "Red brick", "The whole ground floor"],
+          ["#d3beab", "Sandstone", "Sidewalk and pavers"]
+        ] %}
+        <li><span class="pc-chip" style="background: {{ s[0] }}"></span><span><strong>{{ s[1] }}</strong>{{ s[2] }}</span><code>{{ s[0] }}</code></li>
+        {%- endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Side-by-side cards ============ -->
+<section class="pc-compare" id="compare" aria-labelledby="compare-title">
+  <div class="wrap">
+    <p class="eyebrow">Side by side</p>
+    <h2 id="compare-title" class="h2">Six palettes, one glance.</h2>
+    <p class="pc-muted">Each card is a small sketch of the homepage: the hero, a light section, the Menu tabs, the quote band and the dark Visit section. Use “Try it live” to see the full homepage in that palette.</p>
+
+    <div class="pc-cards">
+      {%- for p in palettes %}
+      <article class="pc-card" {% if p.id %}data-palette="{{ p.id }}"{% endif %} aria-labelledby="pc-{{ p.id or 'current' }}">
+        <div class="mini" aria-hidden="true">
+          <div class="mini__hero">
+            <span class="mini__eyebrow mini__eyebrow--light">Open · Cobourg</span>
+            <span class="mini__hero-title">Hair &amp; <em>beauty</em></span>
+            <span class="mini__rule"></span>
+          </div>
+          <div class="mini__light">
+            <span class="mini__eyebrow">The Studio</span>
+            <span class="mini__h">A quiet chair, <em>considered.</em></span>
+            <span class="mini__p">One stylist, start to finish. Never rushed.</span>
+            <span class="mini__tabs"><b>Cut</b><i>Colour</i><i>Care</i></span>
+            <span class="mini__actions"><span class="mini__btn">Book</span><span class="mini__link">Services</span></span>
+          </div>
+          <div class="mini__quote">“The <em>best version</em> of yourself.”</div>
+          <div class="mini__dark">
+            <span class="mini__eyebrow mini__eyebrow--light">Visit</span>
+            <span class="mini__h mini__h--light">247 Division St</span>
+            <span class="mini__btn mini__btn--light">Directions</span>
+          </div>
+        </div>
+
+        <div class="pc-card__body">
+          <p class="pc-card__tag">{{ p.tag }}</p>
+          <h3 class="pc-card__name" id="pc-{{ p.id or 'current' }}">{{ p.name }}</h3>
+          <p class="pc-card__note">{{ p.note }}</p>
+          <ul class="pc-swatches">
+            {%- for s in p.sw %}
+            <li><span class="pc-chip" style="background: {{ s[1] }}"></span><span>{{ s[0] }}</span><code>{{ s[1] }}</code></li>
+            {%- endfor %}
+          </ul>
+          <button class="pc-try" type="button" data-try="{{ p.id }}">Try it live ↓</button>
+        </div>
+      </article>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ Live preview ============ -->
+<section class="pc-live" id="live" aria-labelledby="live-title">
+  <div class="wrap">
+    <div class="pc-live__bar">
+      <div>
+        <p class="eyebrow">Live on the homepage</p>
+        <h2 id="live-title" class="pc-live__title">The real page, recoloured.</h2>
+      </div>
+      <div class="pc-live__controls">
+        <div class="pc-seg" role="radiogroup" aria-label="Palette">
+          {%- for p in palettes %}
+          <button type="button" role="radio" data-palette-btn="{{ p.id }}" aria-checked="{{ 'true' if p.id == 'main' else 'false' }}">
+            <span class="pc-seg__dots"><i style="background: {{ p.sw[0][1] }}"></i><i style="background: {{ p.sw[1][1] }}"></i><i style="background: {{ p.sw[3][1] }}"></i></span>
+            {{ p.name }}
+          </button>
+          {%- endfor %}
+        </div>
+        <div class="pc-seg pc-seg--small" role="radiogroup" aria-label="Preview width">
+          <button type="button" role="radio" data-width="" aria-checked="true">Desktop</button>
+          <button type="button" role="radio" data-width="390" aria-checked="false">Phone</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pc-live__frame-wrap">
+    <iframe class="pc-live__frame" src="/" title="Homepage preview" loading="lazy" data-live></iframe>
+  </div>
+</section>
+
+<script src="/assets/js/palette-concepts.js" defer></script>

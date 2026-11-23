@@ -2,7 +2,7 @@
   "_note": "Circle clusters for the Services section (one per service id in services.json; built by site.js). x/y are the circle's centre and d its diameter, all in % of a square stage. Circles that share an id across layouts glide between positions; the rest shrink out and pop in. Photos are 640px copies in src/assets/img/bubbles/.",
   "cut": [
     { "id": "cut-main", "img": "/assets/img/bubbles/cut.jpg", "pos": "50% 25%", "x": 40, "y": 60, "d": 44 },
-    { "id": "studio", "img": "/assets/img/bubbles/studio-detail.jpg", "pos": "50% 50%", "x": 62, "y": 20, "d": 30 },
+    { "id": "cut-profile", "img": "/assets/img/bubbles/sunset-profile.jpg", "pos": "55% 30%", "x": 62, "y": 20, "d": 30 },
     { "id": "consult", "text": "Consultation first", "tone": "onyx", "x": 30, "y": 26, "d": 22 },
     { "id": "cut-women", "text": "Women's cut & style", "tone": "sand", "x": 84, "y": 40, "d": 18 },
     { "id": "cut-crop", "img": "/assets/img/bubbles/platinum-crop.jpg", "pos": "50% 30%", "x": 78, "y": 66, "d": 30 },
@@ -12,7 +12,7 @@
   ],
   "colour": [
     { "id": "colour-main", "img": "/assets/img/bubbles/colour.jpg", "pos": "50% 30%", "x": 58, "y": 52, "d": 46 },
-    { "id": "studio", "img": "/assets/img/bubbles/studio-detail.jpg", "pos": "50% 50%", "x": 26, "y": 30, "d": 28 },
+    { "id": "colour-bob", "img": "/assets/img/bubbles/copper-bob.jpg", "pos": "50% 50%", "x": 26, "y": 30, "d": 28 },
     { "id": "consult", "text": "Consultation first", "tone": "onyx", "x": 80, "y": 15, "d": 20 },
     { "id": "colour-balayage", "img": "/assets/img/bubbles/balayage.jpg", "pos": "50% 40%", "x": 22, "y": 69, "d": 30 },
     { "id": "colour-full", "text": "Full colour", "tone": "sand", "x": 52, "y": 13, "d": 18 },
@@ -22,7 +22,7 @@
   ],
   "styling": [
     { "id": "styling-main", "img": "/assets/img/bubbles/styling.jpg", "pos": "50% 30%", "x": 44, "y": 45, "d": 44 },
-    { "id": "studio", "img": "/assets/img/bubbles/studio-detail.jpg", "pos": "50% 50%", "x": 80, "y": 74, "d": 26 },
+    { "id": "styling-curl", "img": "/assets/img/bubbles/curling-waves.jpg", "pos": "50% 40%", "x": 80, "y": 74, "d": 26 },
     { "id": "consult", "text": "Consultation first", "tone": "onyx", "x": 16, "y": 75, "d": 20 },
     { "id": "styling-soft", "img": "/assets/img/bubbles/soft-layers.jpg", "pos": "50% 30%", "x": 81, "y": 30, "d": 26 },
     { "id": "styling-bridal", "text": "Bridal hair", "tone": "champagne", "x": 48, "y": 86, "d": 20 },

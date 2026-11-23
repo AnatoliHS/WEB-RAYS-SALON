@@ -6,14 +6,14 @@ layout: base.njk
   <div class="hero__text">
     <p class="eyebrow eyebrow--light">Open &amp; welcoming clients<span class="hide-xs"> · Cobourg</span></p>
     <h1 id="hero-title" class="hero__title">
-      <span class="line" style="--i:0">Your hair,</span>
-      <span class="line" style="--i:1"><em>thoughtfully</em></span>
-      <span class="line" style="--i:2">done.</span>
+      <span class="line" style="--i:0">Hair &amp; <em>beauty</em></span>
+      <span class="line" style="--i:1">in the heart</span>
+      <span class="line" style="--i:2">of Cobourg.</span>
     </h1>
     <span class="hero__rule" aria-hidden="true"></span>
-    <p class="hero__lede">A calm, personal salon on Division Street for cuts, colour and styling, taken at your pace.</p>
+    <p class="hero__lede">A personal salon on Division Street for cuts, colour and styling, taken at your pace.</p>
     <div class="hero__actions">
-      <a class="btn btn--light" href="#book">Book an appointment</a>
+      <a class="btn btn--teal" href="#book">Book an appointment</a>
       <a class="link link--light" href="#services">View services</a>
     </div>
   </div>
@@ -38,10 +38,19 @@ layout: base.njk
 
 <section class="studio" id="studio" aria-labelledby="studio-title">
   <div class="wrap studio__grid">
-    <figure class="studio__img studio__img--main studio__reel reveal" data-reel aria-label="Short clips from the salon: a stylist at work, a relaxing hair wash, a precision cut, and a happy client with her stylist">
-      {%- for n in [1, 2, 3, 4] %}
-      <video class="studio__clip{% if loop.first %} is-on{% endif %}" src="/assets/video/studio-{{ n }}.mp4" {% if loop.first %}poster="/assets/video/studio-poster.jpg" preload="metadata"{% else %}preload="none"{% endif %} width="1280" height="720" muted playsinline aria-hidden="true"></video>
-      {%- endfor %}
+    <figure class="studio__arch reveal">
+      <div class="studio__window">
+        <div class="studio__main">
+          <img src="/assets/img/studio-stylist-sm.jpg" srcset="/assets/img/studio-stylist-sm.jpg 924w, /assets/img/studio-stylist.jpg 1386w" sizes="(max-width: 900px) 84vw, 440px" width="924" height="1000" loading="lazy" alt="A stylist curling a client's long blonde hair in front of the mirror" />
+        </div>
+        <svg class="studio__star studio__star--key" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0C10.6 6.4 13.6 9.4 20 10 13.6 10.6 10.6 13.6 10 20 9.4 13.6 6.4 10.6 0 10 6.4 9.4 9.4 6.4 10 0Z"/></svg>
+        <svg class="studio__star studio__star--1" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0C10.6 6.4 13.6 9.4 20 10 13.6 10.6 10.6 13.6 10 20 9.4 13.6 6.4 10.6 0 10 6.4 9.4 9.4 6.4 10 0Z"/></svg>
+        <svg class="studio__star studio__star--2" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0C10.6 6.4 13.6 9.4 20 10 13.6 10.6 10.6 13.6 10 20 9.4 13.6 6.4 10.6 0 10 6.4 9.4 9.4 6.4 10 0Z"/></svg>
+        <div class="studio__photo">
+          <img src="/assets/img/studio-detail.jpg" width="1000" height="750" loading="lazy" alt="Bright salon interior with tall windows, mirrors and a row of styling chairs" />
+        </div>
+      </div>
+      <figcaption class="studio__caption">— the studio, Division St —</figcaption>
     </figure>
     <div class="studio__copy reveal">
       <p class="eyebrow">The Studio</p>
@@ -53,9 +62,6 @@ layout: base.njk
         <li><span class="pillars__n">03</span><div><strong>Care at home</strong>Simple advice so your hair looks just as good on day five.</div></li>
       </ul>
     </div>
-    <figure class="studio__img studio__img--small reveal">
-      <img src="/assets/img/studio-detail.jpg" width="1000" height="750" loading="lazy" alt="Bright salon interior with tall windows, mirrors and a row of styling chairs" />
-    </figure>
   </div>
 </section>
 

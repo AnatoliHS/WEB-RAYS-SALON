@@ -1,0 +1,229 @@
+---
+layout: base.njk
+permalink: /studio-concepts/
+title: Studio concepts
+description: Prototype comparison of six frame treatments for the Studio video and photo.
+robots: noindex, nofollow
+eleventyExcludeFromCollections: true
+---
+{#
+  Prototype page: six ways to frame the Studio reel + detail photo (the block
+  under "Welcome to Rays"). Not linked from the site, kept out of the sitemap.
+  Every concept uses the real clips, poster and studio-detail.jpg.
+  Styles: studio-concepts.css · Reels: studio-concepts.js
+#}
+{%- macro reel(extra) -%}
+<div class="sc-reel {{ extra }}" data-sreel aria-label="Short clips from the salon">
+  {%- for n in [1, 2, 3, 4] %}
+  <video class="sc-clip{% if loop.first %} is-on{% endif %}" src="/assets/video/studio-{{ n }}.mp4" preload="none" muted playsinline aria-hidden="true"></video>
+  {%- endfor %}
+</div>
+{%- endmacro -%}
+
+{%- macro photo(extra) -%}
+<img class="sc-photo {{ extra }}" src="/assets/img/studio-detail.jpg" width="1000" height="750" loading="lazy" alt="Bright salon interior with tall windows, mirrors and a row of styling chairs" />
+{%- endmacro -%}
+
+{%- macro copy(id) -%}
+<div class="sc-copy">
+  <p class="eyebrow">The Studio</p>
+  <h2 id="{{ id }}" class="h2">A quiet chair in the heart of town.</h2>
+  <p>Rays is an intimate, unhurried salon. You'll be seen by name and never rushed, with one stylist start to finish from consultation to final mirror check.</p>
+  <ul class="pillars">
+    <li><span class="pillars__n">01</span><div><strong>Consultation first</strong>Every visit begins with a proper conversation about your hair.</div></li>
+    <li><span class="pillars__n">02</span><div><strong>Considered colour</strong>Tones chosen for your skin, your style and the upkeep you want.</div></li>
+    <li><span class="pillars__n">03</span><div><strong>Care at home</strong>Simple advice so your hair looks just as good on day five.</div></li>
+  </ul>
+</div>
+{%- endmacro -%}
+
+{%- macro star(cls) -%}
+<svg class="sc-star {{ cls }}" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0C10.6 6.4 13.6 9.4 20 10 13.6 10.6 10.6 13.6 10 20 9.4 13.6 6.4 10.6 0 10 6.4 9.4 9.4 6.4 10 0Z"/></svg>
+{%- endmacro -%}
+
+<link rel="stylesheet" href="/assets/css/studio-concepts.css" />
+
+<header class="sc-head">
+  <div class="wrap">
+    <p class="eyebrow eyebrow--light">Prototype · not linked from the site</p>
+    <h1 class="sc-head__title">The Studio, <em>six frames.</em></h1>
+    <p class="sc-head__note">Six treatments for the video reel and the detail photo under “Welcome to Rays”. Same clips, same photo, same copy; only the framing changes.</p>
+    <nav class="sc-head__jump" aria-label="Concepts">
+      <a class="link link--light" href="#c1">1 · Arch window</a>
+      <a class="link link--light" href="#c2">2 · Oval cameo</a>
+      <a class="link link--light" href="#c3">3 · Sunburst</a>
+      <a class="link link--light" href="#c4">4 · Vanity mirror</a>
+      <a class="link link--light" href="#c5">5 · Postcard &amp; stamp</a>
+      <a class="link link--light" href="#c6">6 · French window</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ 1 · Arch window ============ -->
+<section class="sc-concept sc-arch" id="c1" aria-labelledby="t1">
+  <div class="wrap sc-label">
+    <span class="sc-label__tag">Concept 1</span>
+    <span class="sc-label__text"><strong>Arch window.</strong> A tall arched reel traced by two champagne hairlines with a little star at the keystone. The photo sits in a smaller arch, overlapping the corner.</span>
+  </div>
+  <div class="wrap sc-grid">
+    <div class="sc-media">
+      <div class="arch__window">
+        {{ reel() }}
+        {{ star("arch__key") }}
+        {{ star("arch__spark arch__spark--1") }}
+        {{ star("arch__spark arch__spark--2") }}
+        <div class="arch__photo">{{ photo() }}</div>
+      </div>
+      <p class="sc-caption">— the studio, Division St —</p>
+    </div>
+    {{ copy("t1") }}
+  </div>
+</section>
+
+<!-- ============ 2 · Oval cameo ============ -->
+<section class="sc-concept sc-oval" id="c2" aria-labelledby="t2">
+  <div class="wrap sc-label">
+    <span class="sc-label__tag">Concept 2</span>
+    <span class="sc-label__text"><strong>Oval cameo.</strong> The reel in a portrait oval ringed with tiny beads and a laurel sprig at the base. The photo becomes a round locket, with a slowly turning type ring.</span>
+  </div>
+  <div class="wrap sc-grid">
+    <div class="sc-media">
+      {{ reel() }}
+      <svg class="oval__ring" viewBox="0 0 300 400" aria-hidden="true">
+        <ellipse cx="150" cy="200" rx="140" ry="187" class="oval__beads" />
+        <ellipse cx="150" cy="200" rx="147" ry="195" class="oval__hair" />
+        <g class="oval__laurel" transform="translate(150 392)">
+          <path d="M-46 -6 Q0 18 46 -6" />
+          {%- for x in [-38, -26, -14] %}
+          <ellipse cx="{{ x }}" cy="0" rx="7" ry="3" transform="rotate(-28 {{ x }} 0)" />
+          <ellipse cx="{{ -x }}" cy="0" rx="7" ry="3" transform="rotate(28 {{ -x }} 0)" />
+          {%- endfor %}
+          <circle cx="0" cy="6" r="3.2" />
+        </g>
+      </svg>
+      <div class="oval__locket">{{ photo() }}</div>
+      <svg class="oval__badge" viewBox="0 0 120 120" aria-hidden="true">
+        <defs><path id="oval-circle" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0" /></defs>
+        <text><textPath href="#oval-circle">RAYS BEAUTY SALON · COBOURG · DIVISION ST ·</textPath></text>
+        <path class="oval__badge-star" d="M60 50C60.4 57 63 59.6 70 60 63 60.4 60.4 63 60 70 59.6 63 57 60.4 50 60 57 59.6 59.6 57 60 50Z" />
+      </svg>
+    </div>
+    {{ copy("t2") }}
+  </div>
+</section>
+
+<!-- ============ 3 · Sunburst ============ -->
+<section class="sc-concept sc-sun" id="c3" aria-labelledby="t3">
+  <div class="wrap sc-label">
+    <span class="sc-label__tag">Concept 3</span>
+    <span class="sc-label__text"><strong>Sunburst.</strong> A nod to the name: the reel is a round sun with fine rays drifting around it. The photo rises beneath it as a half-moon “sunrise” on a hairline horizon.</span>
+  </div>
+  <div class="wrap sc-grid">
+    <div class="sc-media">
+      <span class="sun__rays" aria-hidden="true"></span>
+      <span class="sun__rays sun__rays--short" aria-hidden="true"></span>
+      {{ reel() }}
+      <div class="sun__rise">{{ photo() }}</div>
+      <span class="sun__horizon" aria-hidden="true"></span>
+    </div>
+    {{ copy("t3") }}
+  </div>
+</section>
+
+<!-- ============ 4 · Vanity mirror ============ -->
+<section class="sc-concept sc-vanity" id="c4" aria-labelledby="t4">
+  <div class="wrap sc-label">
+    <span class="sc-label__tag">Concept 4</span>
+    <span class="sc-label__text"><strong>Vanity mirror.</strong> The reel plays in an arched dressing-room mirror lined with softly twinkling bulbs. The photo is a snapshot tucked into the frame’s edge.</span>
+  </div>
+  <div class="wrap sc-grid">
+    <div class="sc-media">
+      <svg class="vanity__frame" viewBox="0 0 300 420" aria-hidden="true">
+        <defs>
+          <linearGradient id="vanity-gold" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#eadbc6" />
+            <stop offset=".5" stop-color="#d4bb98" />
+            <stop offset="1" stop-color="#e8d8c2" />
+          </linearGradient>
+          <radialGradient id="vanity-glow">
+            <stop offset="0" stop-color="#fff4da" stop-opacity=".95" />
+            <stop offset="1" stop-color="#ffe7b8" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+        <path d="M0 150A150 150 0 0 1 300 150V408a12 12 0 0 1-12 12H12A12 12 0 0 1 0 408Z" fill="url(#vanity-gold)" />
+        <path d="M4 150A146 146 0 0 1 296 150V407a9 9 0 0 1-9 9H13a9 9 0 0 1-9-9Z" class="vanity__hair" />
+        {%- set bulbs = [[13,390],[13,360],[13,330],[13,300],[13,270],[13,240],[13,210],[13,180],[13,150],[16.4,119.5],[26.6,90.6],[42.9,64.6],[64.6,42.9],[90.6,26.6],[119.5,16.4],[150,13],[180.5,16.4],[209.4,26.6],[235.4,42.9],[257.1,64.6],[273.4,90.6],[283.6,119.5],[287,150],[287,180],[287,210],[287,240],[287,270],[287,300],[287,330],[287,360],[287,390]] %}
+        {%- for b in bulbs %}
+        <g class="vanity__bulb" style="--i: {{ loop.index0 }}">
+          <circle cx="{{ b[0] }}" cy="{{ b[1] }}" r="11" fill="url(#vanity-glow)" />
+          <circle cx="{{ b[0] }}" cy="{{ b[1] }}" r="4.6" class="vanity__bulb-core" />
+        </g>
+        {%- endfor %}
+      </svg>
+      {{ reel("vanity__glass") }}
+      <div class="vanity__tuck">{{ photo() }}</div>
+    </div>
+    {{ copy("t4") }}
+  </div>
+</section>
+
+<!-- ============ 5 · Postcard & stamp ============ -->
+<section class="sc-concept sc-post" id="c5" aria-labelledby="t5">
+  <div class="wrap sc-label">
+    <span class="sc-label__tag">Concept 5</span>
+    <span class="sc-label__text"><strong>Postcard &amp; stamp.</strong> The reel is a keepsake postcard on cotton paper with a handwritten line. The photo is a perforated stamp in the corner, kissed by a Rays postmark.</span>
+  </div>
+  <div class="wrap sc-grid">
+    <div class="sc-media">
+      <div class="post__card">
+        {{ reel() }}
+        <p class="post__note">a quiet chair, in the heart of Cobourg ♡</p>
+      </div>
+      <div class="post__stamp">{{ photo() }}</div>
+      <svg class="post__mark" viewBox="0 0 200 110" aria-hidden="true">
+        <defs><path id="post-circle" d="M145 55m-36 0a36 36 0 1 1 72 0a36 36 0 1 1-72 0" /></defs>
+        <circle cx="145" cy="55" r="46" /><circle cx="145" cy="55" r="27" />
+        <text><textPath href="#post-circle" startOffset="2%">RAYS · COBOURG · ON ·</textPath></text>
+        <text x="145" y="59" text-anchor="middle" class="post__mark-date">247</text>
+        <path d="M10 30q10-7 20 0t20 0 20 0 20 0M10 46q10-7 20 0t20 0 20 0 20 0M10 62q10-7 20 0t20 0 20 0 20 0M10 78q10-7 20 0t20 0 20 0 20 0" />
+      </svg>
+    </div>
+    {{ copy("t5") }}
+  </div>
+</section>
+
+<!-- ============ 6 · French window ============ -->
+<section class="sc-concept sc-window" id="c6" aria-labelledby="t6">
+  <div class="wrap sc-label">
+    <span class="sc-label__tag">Concept 6</span>
+    <span class="sc-label__text"><strong>French window.</strong> One arched shopfront window split into panes: the reel through the wide pane, the photo through the narrow one, with a sill and a single bud vase.</span>
+  </div>
+  <div class="wrap sc-grid">
+    <div class="sc-media">
+      <div class="window__frame">
+        <div class="window__panes">
+          {{ reel("window__pane") }}
+          <div class="window__pane">{{ photo() }}</div>
+        </div>
+        <svg class="window__fan" viewBox="0 0 200 100" aria-hidden="true">
+          {%- for a in [[171.3, 41.2], [130.9, 4.9], [69.1, 4.9], [28.7, 41.2]] %}
+          <line x1="100" y1="100" x2="{{ a[0] }}" y2="{{ a[1] }}" />
+          {%- endfor %}
+          <path d="M70 100a30 30 0 0 1 60 0" />
+        </svg>
+      </div>
+      <div class="window__sill" aria-hidden="true">
+        <svg class="window__vase" viewBox="0 0 40 90">
+          <path class="window__stem" d="M20 60C19 40 22 25 17 8" />
+          <path class="window__leaf" d="M19 42c-8-2-11-8-11-12 6 1 10 5 11 12Z" />
+          <path class="window__leaf" d="M20 30c7-3 9-8 9-12-5 1-8 5-9 12Z" />
+          <circle class="window__bud" cx="17" cy="7" r="5" />
+          <path class="window__glass" d="M14 58h12v6c5 3 7 8 7 13 0 7-5 11-13 11S7 84 7 77c0-5 2-10 7-13Z" />
+        </svg>
+      </div>
+    </div>
+    {{ copy("t6") }}
+  </div>
+</section>
+
+<script src="/assets/js/studio-concepts.js" defer></script>
