@@ -69,21 +69,31 @@
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="nav" id="nav">
+    {#- "Shopfront" (desktop): links on the left, the wordmark centred like the
+        sign over the door, address + Book on the right. Under 900px it falls
+        back to brand left + menu button right, opening the ivory drawer. -#}
     <div class="nav__inner">
-      <a class="brand" href="/" aria-label="{{ site.name }}, home">
-        <span class="brand__mark">Rays</span>
-        <span class="brand__sub">Beauty Salon</span>
-      </a>
       <nav class="nav__links" aria-label="Primary">
         <a href="/#services">Services</a>
         <a href="/#studio">The Studio</a>
         <a href="/#gallery">Gallery</a>
         <a href="/#visit">Visit</a>
       </nav>
-      <a class="btn btn--small nav__cta" href="/#book">Book</a>
-      <button class="nav__toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
-        <span></span><span></span>
-      </button>
+      <div class="nav__mid">
+        <svg class="nav__star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0C10.6 6.4 13.6 9.4 20 10 13.6 10.6 10.6 13.6 10 20 9.4 13.6 6.4 10.6 0 10 6.4 9.4 9.4 6.4 10 0Z"/></svg>
+        <a class="brand" href="/" aria-label="{{ site.name }}, home">
+          <span class="brand__mark">Rays</span>
+          <span class="brand__sub">Beauty Salon</span>
+        </a>
+        <svg class="nav__star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0C10.6 6.4 13.6 9.4 20 10 13.6 10.6 10.6 13.6 10 20 9.4 13.6 6.4 10.6 0 10 6.4 9.4 9.4 6.4 10 0Z"/></svg>
+      </div>
+      <div class="nav__end">
+        <span class="nav__addr">{{ site.street }}</span>
+        <a class="btn btn--small nav__cta" href="/#book">Book</a>
+        <button class="nav__toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+          <span></span><span></span>
+        </button>
+      </div>
     </div>
   </header>
 

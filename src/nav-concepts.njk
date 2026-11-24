@@ -1,0 +1,303 @@
+---
+layout: base.njk
+permalink: /nav-concepts/
+title: Navbar concepts
+description: Prototype comparison of five navigation bars for the site.
+robots: noindex, nofollow
+eleventyExcludeFromCollections: true
+---
+{#
+  Prototype page: five navbar treatments, each running live inside a small
+  scrollable copy of the homepage (scroll inside a preview to see the
+  scrolled state; switch to Phone to see the mobile version).
+  Not linked from the site, kept out of the sitemap.
+  Styles: nav-concepts.css · Behaviour: nav-concepts.js
+#}
+{%- set sections = [
+  { id: "services", label: "Services" },
+  { id: "studio", label: "The Studio" },
+  { id: "gallery", label: "Gallery" },
+  { id: "visit", label: "Visit" }
+] -%}
+
+{%- macro links(cls) -%}
+{%- for s in sections %}<a href="#" data-go="{{ s.id }}"{% if cls %} class="{{ cls }}"{% endif %}>{{ s.label }}</a>{% endfor -%}
+{%- endmacro -%}
+
+{%- macro brand(extra) -%}
+<a class="nc-brand {{ extra }}" href="#" data-go="top" aria-label="Rays Beauty Salon, home"><b>Rays</b><small>Beauty Salon</small></a>
+{%- endmacro -%}
+
+{%- macro burger() -%}
+<button class="nc-burger" type="button" data-menu-toggle aria-expanded="false" aria-label="Open menu"><span></span><span></span></button>
+{%- endmacro -%}
+
+{%- macro star(cls) -%}
+<svg class="nc-star {{ cls }}" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0C10.6 6.4 13.6 9.4 20 10 13.6 10.6 10.6 13.6 10 20 9.4 13.6 6.4 10.6 0 10 6.4 9.4 9.4 6.4 10 0Z"/></svg>
+{%- endmacro -%}
+
+{#- A shortened homepage the navs sit over -#}
+{%- macro demoPage() -%}
+<div class="nc-page">
+  <section class="nc-hero" data-sec="top">
+    <div class="nc-hero__text">
+      <p class="eyebrow eyebrow--light">Open &amp; welcoming · Cobourg</p>
+      <p class="nc-hero__title">Hair &amp; <em>beauty</em><br />in the heart<br />of Cobourg.</p>
+      <div class="nc-hero__actions">
+        <a class="btn btn--teal btn--small" href="#" data-go="book">Book an appointment</a>
+        <a class="link link--light" href="#" data-go="services">View services</a>
+      </div>
+    </div>
+    <img class="nc-hero__img" src="/assets/img/hero-portrait-1000.jpg" width="1000" height="1371" loading="lazy" alt="" />
+  </section>
+
+  <section class="nc-sec" data-sec="services">
+    <p class="eyebrow">Services</p>
+    <p class="nc-h">The menu</p>
+    <div class="nc-cards">
+      {%- for c in [["cut", "Cut &amp; Style"], ["colour", "Colour"], ["styling", "Styling"], ["care", "Care"]] %}
+      <div class="nc-card"><img src="/assets/img/services/{{ c[0] }}.jpg" width="933" height="1400" loading="lazy" alt="" /><span>{{ c[1] | safe }}</span></div>
+      {%- endfor %}
+    </div>
+  </section>
+
+  <section class="nc-sec nc-studio" data-sec="studio">
+    <img src="/assets/img/studio-stylist-sm.jpg" width="924" height="1000" loading="lazy" alt="" />
+    <div>
+      <p class="eyebrow">The Studio</p>
+      <p class="nc-h">A quiet chair in the heart of town.</p>
+      <p class="nc-mute">Rays is an intimate, unhurried salon. You'll be seen by name and never rushed, with one stylist from consultation to final mirror check.</p>
+    </div>
+  </section>
+
+  <section class="nc-sec nc-gallery" data-sec="gallery">
+    <p class="eyebrow eyebrow--light">Lookbook</p>
+    <p class="nc-h">Recent work</p>
+    <div class="nc-thumbs">
+      {%- for f in ["windswept", "textured-lob", "soft-layers", "sun-kissed"] %}
+      <img src="/assets/img/lookbook/{{ f }}-thumb.jpg" loading="lazy" alt="" />
+      {%- endfor %}
+    </div>
+  </section>
+
+  <section class="nc-sec nc-visit" data-sec="visit">
+    <p class="eyebrow">Visit</p>
+    <p class="nc-h">247 Division St, <em>Cobourg</em></p>
+    <p class="nc-mute">Street parking out front · By appointment</p>
+  </section>
+
+  <section class="nc-sec nc-book" data-sec="book">
+    <p class="nc-h">Book your <em>chair.</em></p>
+    <span class="btn btn--light btn--small">Book an appointment</span>
+  </section>
+
+  <footer class="nc-foot">© Rays Beauty Salon</footer>
+</div>
+{%- endmacro -%}
+
+{#- Toolbar + frame wrapper: caller() renders the concept's nav markup -#}
+{%- macro stage(cls) -%}
+<div class="nc-stage {{ cls }}" data-stage>
+  <div class="nc-toolbar">
+    <div class="nc-seg" role="group" aria-label="Preview size">
+      <button type="button" data-device="desktop" aria-pressed="true">Desktop</button>
+      <button type="button" data-device="phone" aria-pressed="false">Phone</button>
+    </div>
+    <span class="nc-hint">Scroll inside the preview ↓</span>
+  </div>
+  <div class="nc-frame" role="region" aria-label="Live preview">
+    {{ caller() }}
+    <div class="nc-scroller" data-scroller tabindex="0" aria-label="Preview page, scrollable">{{ demoPage() }}</div>
+  </div>
+</div>
+{%- endmacro -%}
+
+<link rel="stylesheet" href="/assets/css/nav-concepts.css" />
+
+<header class="nc-head">
+  <div class="wrap">
+    <p class="eyebrow eyebrow--light">Prototype · not linked from the site</p>
+    <h1 class="nc-head__title">The navbar, <em>five ways.</em></h1>
+    <p class="nc-head__note">Each concept runs live over a short copy of the homepage. Scroll inside a preview to see how it changes past the hero, and switch to <strong>Phone</strong> to see the mobile menu.</p>
+    <nav class="nc-head__jump" aria-label="Concepts">
+      <a class="link link--light" href="#c1">1 · Shopfront</a>
+      <a class="link link--light" href="#c2">2 · Glass capsule</a>
+      <a class="link link--light" href="#c3">3 · Front desk</a>
+      <a class="link link--light" href="#c4">4 · The index</a>
+      <a class="link link--light" href="#c5">5 · Booking dock</a>
+      <a class="link link--light" href="#compare">At a glance</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ 1 · Shopfront ============ -->
+<section class="nc-concept" id="c1" aria-labelledby="t1">
+  <div class="wrap">
+    <div class="nc-label">
+      <span class="nc-label__tag">Concept 1</span>
+      <h2 id="t1" class="nc-label__title">Shopfront</h2>
+      <p class="nc-label__text">The wordmark moves to the centre like a sign over the door, links split either side with small stars, and Book sits at the far right. Past the hero the bar turns ivory and the wordmark shrinks. On a phone: menu on the left, Rays in the middle, Book on the right; the menu drops down from the top.</p>
+    </div>
+    {% call stage("n1") %}
+    <header class="nc-nav">
+      <div class="n1__bar">
+        <div class="n1__side n1__side--l">
+          {{ burger() }}
+          <nav class="nc-links" aria-label="Primary">{{ links() }}</nav>
+        </div>
+        <div class="n1__mid">{{ star("n1__star") }}{{ brand() }}{{ star("n1__star") }}</div>
+        <div class="n1__side n1__side--r">
+          <span class="n1__addr">247 Division St</span>
+          <a class="btn btn--small n1__book" href="#" data-go="book">Book</a>
+        </div>
+      </div>
+    </header>
+    <div class="n1__menu" data-menu>
+      <nav aria-label="Mobile">{% for s in sections %}<a href="#" data-go="{{ s.id }}" style="--i:{{ loop.index0 }}">{{ s.label }}</a>{% endfor %}</nav>
+      <p class="n1__menu-addr">247 Division St · Cobourg</p>
+    </div>
+    {% endcall %}
+  </div>
+</section>
+
+<!-- ============ 2 · Glass capsule ============ -->
+<section class="nc-concept" id="c2" aria-labelledby="t2">
+  <div class="wrap">
+    <div class="nc-label">
+      <span class="nc-label__tag">Concept 2</span>
+      <h2 id="t2" class="nc-label__title">Glass capsule</h2>
+      <p class="nc-label__text">A floating, frosted pill that never touches the edges. A soft highlight glides between links as you hover and rests on the section you're reading. Dark glass over the hero, ivory glass after. On a phone the pill opens into a rounded card.</p>
+    </div>
+    {% call stage("n2") %}
+    <header class="nc-nav">
+      <div class="n2__pill">
+        {{ brand() }}
+        <nav class="nc-links n2__links" aria-label="Primary"><span class="n2__ind" data-indicator aria-hidden="true"></span>{{ links() }}</nav>
+        <a class="n2__book" href="#" data-go="book">Book</a>
+        <button class="n2__menu-btn" type="button" data-menu-toggle aria-expanded="false" aria-label="Open menu"><span class="n2__menu-word">Menu</span><i aria-hidden="true"></i></button>
+        <div class="n2__menu" data-menu>
+          <div class="n2__menu-in">
+            <nav aria-label="Mobile">{{ links() }}</nav>
+            <a class="n2__book n2__book--wide" href="#" data-go="book">Book an appointment</a>
+          </div>
+        </div>
+      </div>
+    </header>
+    {% endcall %}
+  </div>
+</section>
+
+<!-- ============ 3 · Front desk ============ -->
+<section class="nc-concept" id="c3" aria-labelledby="t3">
+  <div class="wrap">
+    <div class="nc-label">
+      <span class="nc-label__tag">Concept 3</span>
+      <h2 id="t3" class="nc-label__title">Front desk</h2>
+      <p class="nc-label__text">A thin teal strip on top holds the practical things: address, directions, booking policy, Facebook. Below it, the familiar bar. On scroll the strip tucks away and the bar goes solid, with the current section underlined. On a phone a teal panel slides in from the right.</p>
+    </div>
+    {% call stage("n3") %}
+    <header class="nc-nav">
+      <div class="n3__strip">
+        <span>247 Division St, Cobourg · <a href="#" data-go="visit">Directions</a></span>
+        <span class="n3__mid">Cuts · Colour · Styling · By appointment</span>
+        <a class="n3__fb" href="#">Facebook</a>
+      </div>
+      <div class="n3__bar">
+        {{ brand() }}
+        <nav class="nc-links" aria-label="Primary">{{ links() }}</nav>
+        <a class="btn btn--small n3__book" href="#" data-go="book">Book</a>
+        {{ burger() }}
+      </div>
+    </header>
+    <div class="n3__menu" data-menu>
+      <nav aria-label="Mobile">{% for s in sections %}<a href="#" data-go="{{ s.id }}" style="--i:{{ loop.index0 }}"><span>0{{ loop.index }}</span>{{ s.label }}</a>{% endfor %}</nav>
+      <div class="n3__menu-foot">
+        <a class="btn btn--light" href="#" data-go="book">Book an appointment</a>
+        <p>247 Division St · Cobourg<br />By appointment</p>
+      </div>
+    </div>
+    {% endcall %}
+  </div>
+</section>
+
+<!-- ============ 4 · The index ============ -->
+<section class="nc-concept" id="c4" aria-labelledby="t4">
+  <div class="wrap">
+    <div class="nc-label">
+      <span class="nc-label__tag">Concept 4</span>
+      <h2 id="t4" class="nc-label__title">The index</h2>
+      <p class="nc-label__text">Very little on screen: wordmark, Book, and a “Menu” button. The bar hides while you scroll down and comes back the moment you scroll up. Menu opens a teal index of big numbered links; hovering one shows its photo in an arch. Desktop and phone work the same way.</p>
+    </div>
+    {% call stage("n4") %}
+    <header class="nc-nav">
+      {{ brand() }}
+      <a class="link n4__book" href="#" data-go="book">Book</a>
+      <button class="n4__menu-btn" type="button" data-menu-toggle aria-expanded="false" aria-label="Open menu"><span class="n4__word" data-open="Menu" data-close="Close"></span><i aria-hidden="true"></i></button>
+    </header>
+    <div class="n4__panel" data-menu>
+      <nav class="n4__list" aria-label="Index">
+        {%- for s in sections %}<a href="#" data-go="{{ s.id }}" data-key="{{ s.id }}" style="--i:{{ loop.index0 }}"><span>0{{ loop.index }}</span>{{ s.label }}</a>{% endfor -%}
+      </nav>
+      <div class="n4__preview" aria-hidden="true">
+        <img class="is-on" data-preview="services" src="/assets/img/services/colour.jpg" loading="lazy" alt="" />
+        <img data-preview="studio" src="/assets/img/studio-detail.jpg" loading="lazy" alt="" />
+        <img data-preview="gallery" src="/assets/img/lookbook/movement-thumb.jpg" loading="lazy" alt="" />
+        <img data-preview="visit" src="/assets/img/storefront.jpg" loading="lazy" alt="" />
+      </div>
+      <div class="n4__foot"><span>247 Division St · Cobourg</span><span>By appointment</span><a href="#">Facebook</a></div>
+    </div>
+    {% endcall %}
+  </div>
+</section>
+
+<!-- ============ 5 · Booking dock ============ -->
+<section class="nc-concept" id="c5" aria-labelledby="t5">
+  <div class="wrap">
+    <div class="nc-label">
+      <span class="nc-label__tag">Concept 5</span>
+      <h2 id="t5" class="nc-label__title">Booking dock</h2>
+      <p class="nc-label__text">No bar at the top at all: the wordmark floats free and inverts against whatever's behind it. The links live in a teal dock at the bottom, with a coral line tracking how far down the page you are. On a phone the dock becomes three thumb-sized buttons (Menu, Directions, Book) and the menu rises as a sheet.</p>
+    </div>
+    {% call stage("n5") %}
+    {{ brand("n5__brand") }}
+    <span class="n5__corner" aria-hidden="true">247 Division St</span>
+    <div class="n5__scrim" data-menu-close></div>
+    <div class="n5__sheet" data-menu>
+      <span class="n5__handle" aria-hidden="true"></span>
+      <nav aria-label="Mobile">{% for s in sections %}<a href="#" data-go="{{ s.id }}" style="--i:{{ loop.index0 }}">{{ s.label }}</a>{% endfor %}</nav>
+      <p class="n5__sheet-addr">247 Division St · Cobourg · By appointment</p>
+    </div>
+    <nav class="n5__dock" aria-label="Primary">
+      <span class="n5__links">{{ links() }}</span>
+      <button class="n5__m" type="button" data-menu-toggle aria-expanded="false" aria-label="Open menu"><i aria-hidden="true"></i>Menu</button>
+      <a class="n5__m" href="#" data-go="visit">Directions</a>
+      <a class="n5__book" href="#" data-go="book">Book</a>
+    </nav>
+    {% endcall %}
+  </div>
+</section>
+
+<!-- ============ Comparison ============ -->
+<section class="nc-compare" id="compare" aria-labelledby="tc">
+  <div class="wrap">
+    <p class="eyebrow">Side by side</p>
+    <h2 id="tc" class="h2">At a glance</h2>
+    <div class="nc-table-wrap">
+      <table class="nc-table">
+        <thead>
+          <tr><th scope="col">Concept</th><th scope="col">Feels like</th><th scope="col">Strongest at</th><th scope="col">Watch out for</th><th scope="col">Build effort</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row"><span>1</span>Shopfront</th><td>Classic boutique, signage</td><td>Brand presence; balanced and calm</td><td>Centre logo competes with the hero headline; needs 4 links max</td><td><i class="nc-dots" style="--n:2"></i>Low</td></tr>
+          <tr><th scope="row"><span>2</span>Glass capsule</th><td>Modern, light, app-like</td><td>Feels premium; never blocks the hero edges</td><td>Blur costs a little on older phones; can read as “tech”</td><td><i class="nc-dots" style="--n:3"></i>Medium</td></tr>
+          <tr><th scope="row"><span>3</span>Front desk</th><td>Practical, local, trustworthy</td><td>Address and booking info up front; good for local SEO and first-timers</td><td>Busiest at the top; strip needs real hours and a phone number</td><td><i class="nc-dots" style="--n:2"></i>Low</td></tr>
+          <tr><th scope="row"><span>4</span>The index</th><td>Editorial, magazine</td><td>Most screen for photos; the menu itself becomes a moment</td><td>Links hidden behind a click on desktop; one extra step to find things</td><td><i class="nc-dots" style="--n:3"></i>Medium</td></tr>
+          <tr><th scope="row"><span>5</span>Booking dock</th><td>Bold, thumb-first</td><td>Book is always one tap away on phones; most distinctive</td><td>Unusual on desktop; dock covers the bottom of content</td><td><i class="nc-dots" style="--n:4"></i>Higher</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="nc-compare__note"><strong>Mix and match:</strong> these are separable. The Front desk strip, the Glass capsule's gliding highlight, or the Booking dock's phone bar could each be added to the current nav on their own.</p>
+  </div>
+</section>
+
+<script src="/assets/js/nav-concepts.js" defer></script>

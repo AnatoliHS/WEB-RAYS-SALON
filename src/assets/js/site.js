@@ -6,13 +6,35 @@ if (year) year.textContent = new Date().getFullYear();
 // Nav: transparent over the hero, solid once scrolled
 const nav = document.getElementById("nav");
 const hero = document.querySelector(".hero");
+// On desktop the bar shrinks when it goes solid, so the threshold uses its
+// tall (unscrolled) height from --nav-top rather than its current height,
+// otherwise it would flip back and forth right at the edge of the hero.
 const setNav = () => {
-  const limit = hero ? hero.offsetHeight - nav.offsetHeight : 40;
+  const navTop = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-top")) || nav.offsetHeight;
+  const limit = hero ? hero.offsetHeight - navTop : 40;
   nav.classList.toggle("is-solid", window.scrollY > Math.max(limit, 40));
 };
 window.addEventListener("scroll", setNav, { passive: true });
 window.addEventListener("resize", setNav);
 setNav();
+
+// Nav: underline the link for the section currently in view
+(() => {
+  const links = [...nav.querySelectorAll(".nav__links a[href^='/#']")];
+  const targets = links.map((a) => document.getElementById(a.hash.slice(1))).filter(Boolean);
+  if (!targets.length) return;
+  const seen = new Set();
+  // a thin band across the middle of the screen decides which section is "current"
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => (e.isIntersecting ? seen.add(e.target.id) : seen.delete(e.target.id)));
+    const current = targets.find((t) => seen.has(t.id));
+    links.forEach((a) => {
+      if (current && a.hash === `#${current.id}`) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  targets.forEach((t) => io.observe(t));
+})();
 
 // Mobile menu ("Ivory bloom"): the sheet opens as a circle from the menu
 // button. It stays in the page (so it can animate closed too) and is made
